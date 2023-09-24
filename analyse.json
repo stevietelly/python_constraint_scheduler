@@ -1,0 +1,301 @@
+{
+ "room": {
+  "Room:->A1": {
+   "daytime": [
+    "monday at 8:00am",
+    "monday at 9:00am",
+    "monday at 10:00am",
+    "monday at 11:00am",
+    "monday at 12:00pm",
+    "tuesday at 8:00am",
+    "tuesday at 9:00am",
+    "tuesday at 10:00am",
+    "tuesday at 11:00am",
+    "tuesday at 12:00pm",
+    "wednesday at 8:00am",
+    "wednesday at 9:00am",
+    "wednesday at 10:00am",
+    "wednesday at 11:00am",
+    "wednesday at 12:00pm",
+    "thursday at 8:00am",
+    "thursday at 9:00am",
+    "thursday at 10:00am",
+    "thursday at 11:00am",
+    "thursday at 12:00pm"
+   ],
+   "instructor": [
+    "Instructor: Mr. Stephen Telian",
+    "Instructor: Mr. Stanton Collins",
+    "Instructor: Mr. Stanley Baraka",
+    "Instructor: Mr. Tom Hanks",
+    "Instructor: Mr. Tom Holland",
+    "Instructor: Ms. Sandra Bullocks",
+    "Instructor: Ms. Elizabeth Banks"
+   ],
+   "unit": [
+    "Unit: Energy and Empirical Measurements",
+    "Unit: Introduction to Computers",
+    "Unit: Transmitted Diseases",
+    "Unit: Management",
+    "Unit: Structure Programming",
+    "Unit: Introduction to Databases"
+   ],
+   "group": [
+    "Group:->1",
+    "Group:->2",
+    "Group:->3",
+    "Group:->4",
+    "Group:->5",
+    "Group:->6"
+   ]
+  },
+  "Room:->A2": {
+   "daytime": [
+    "monday at 10:00am",
+    "monday at 11:00am",
+    "monday at 12:00pm",
+    "tuesday at 10:00am",
+    "tuesday at 11:00am",
+    "tuesday at 12:00pm",
+    "wednesday at 10:00am",
+    "wednesday at 11:00am",
+    "wednesday at 12:00pm",
+    "thursday at 10:00am",
+    "thursday at 11:00am",
+    "thursday at 12:00pm"
+   ],
+   "instructor": [
+    "Instructor: Mr. Stephen Telian",
+    "Instructor: Mr. Stanton Collins",
+    "Instructor: Mr. Stanley Baraka",
+    "Instructor: Mr. Tom Hanks",
+    "Instructor: Mr. Tom Holland",
+    "Instructor: Ms. Sandra Bullocks",
+    "Instructor: Ms. Elizabeth Banks"
+   ],
+   "unit": [
+    "Unit: Energy and Empirical Measurements",
+    "Unit: Introduction to Computers",
+    "Unit: Transmitted Diseases",
+    "Unit: Management",
+    "Unit: Structure Programming",
+    "Unit: Introduction to Databases"
+   ],
+   "group": [
+    "Group:->1",
+    "Group:->2",
+    "Group:->3",
+    "Group:->4",
+    "Group:->5",
+    "Group:->6"
+   ]
+  },
+  "Room:->A3": {
+   "daytime": [
+    "monday at 10:00am",
+    "monday at 11:00am",
+    "monday at 12:00pm",
+    "tuesday at 8:00am",
+    "tuesday at 9:00am",
+    "tuesday at 10:00am",
+    "tuesday at 11:00am",
+    "tuesday at 12:00pm",
+    "wednesday at 8:00am",
+    "wednesday at 9:00am",
+    "wednesday at 10:00am",
+    "wednesday at 11:00am",
+    "wednesday at 12:00pm",
+    "thursday at 8:00am",
+    "thursday at 9:00am",
+    "thursday at 10:00am",
+    "thursday at 11:00am",
+    "thursday at 12:00pm"
+   ],
+   "instructor": [
+    "Instructor: Mr. Stephen Telian",
+    "Instructor: Mr. Stanton Collins",
+    "Instructor: Mr. Stanley Baraka",
+    "Instructor: Mr. Tom Hanks",
+    "Instructor: Mr. Tom Holland",
+    "Instructor: Ms. Sandra Bullocks",
+    "Instructor: Ms. Elizabeth Banks"
+   ],
+   "unit": [
+    "Unit: Energy and Empirical Measurements",
+    "Unit: Introduction to Computers",
+    "Unit: Transmitted Diseases",
+    "Unit: Management",
+    "Unit: Structure Programming",
+    "Unit: Introduction to Databases"
+   ],
+   "group": [
+    "Group:->1",
+    "Group:->2",
+    "Group:->3",
+    "Group:->4",
+    "Group:->5",
+    "Group:->6"
+   ]
+  }
+ },
+ "unit": {
+  "Unit: Energy and Empirical Measurements": {
+   "daytime": [
+    "monday at 10:00am",
+    "monday at 11:00am",
+    "monday at 12:00pm",
+    "tuesday at 10:00am",
+    "tuesday at 11:00am",
+    "tuesday at 12:00pm",
+    "wednesday at 10:00am",
+    "wednesday at 11:00am",
+    "wednesday at 12:00pm",
+    "thursday at 10:00am",
+    "thursday at 11:00am",
+    "thursday at 12:00pm"
+   ],
+   "room": [
+    "Room:->A1",
+    "Room:->A2",
+    "Room:->A3"
+   ],
+   "instructor": [
+    "Instructor: Mr. Stephen Telian",
+    "Instructor: Mr. Stanton Collins",
+    "Instructor: Mr. Stanley Baraka",
+    "Instructor: Mr. Tom Hanks",
+    "Instructor: Mr. Tom Holland",
+    "Instructor: Ms. Sandra Bullocks",
+    "Instructor: Ms. Elizabeth Banks"
+   ]
+  },
+  "Unit: Introduction to Computers": {
+   "daytime": [
+    "tuesday at 8:00am",
+    "tuesday at 9:00am",
+    "tuesday at 10:00am",
+    "tuesday at 11:00am",
+    "tuesday at 12:00pm"
+   ],
+   "room": [
+    "Room:->A1"
+   ],
+   "instructor": [
+    "Instructor: Mr. Stephen Telian",
+    "Instructor: Mr. Stanton Collins",
+    "Instructor: Mr. Stanley Baraka",
+    "Instructor: Mr. Tom Hanks",
+    "Instructor: Mr. Tom Holland",
+    "Instructor: Ms. Sandra Bullocks",
+    "Instructor: Ms. Elizabeth Banks"
+   ]
+  },
+  "Unit: Transmitted Diseases": {
+   "daytime": [
+    "monday at 8:00am",
+    "monday at 9:00am",
+    "monday at 10:00am",
+    "monday at 11:00am",
+    "monday at 12:00pm",
+    "wednesday at 8:00am",
+    "wednesday at 9:00am",
+    "wednesday at 10:00am",
+    "wednesday at 11:00am",
+    "wednesday at 12:00pm"
+   ],
+   "room": [
+    "Room:->A1",
+    "Room:->A2",
+    "Room:->A3"
+   ],
+   "instructor": [
+    "Instructor: Mr. Stephen Telian",
+    "Instructor: Mr. Stanton Collins",
+    "Instructor: Mr. Stanley Baraka",
+    "Instructor: Mr. Tom Hanks",
+    "Instructor: Mr. Tom Holland",
+    "Instructor: Ms. Sandra Bullocks",
+    "Instructor: Ms. Elizabeth Banks"
+   ]
+  },
+  "Unit: Management": {
+   "daytime": [
+    "tuesday at 8:00am",
+    "tuesday at 10:00am",
+    "tuesday at 11:00am",
+    "tuesday at 12:00pm",
+    "wednesday at 8:00am",
+    "wednesday at 10:00am",
+    "wednesday at 11:00am",
+    "wednesday at 12:00pm",
+    "thursday at 8:00am",
+    "thursday at 10:00am",
+    "thursday at 11:00am",
+    "thursday at 12:00pm"
+   ],
+   "room": [
+    "Room:->A1",
+    "Room:->A2",
+    "Room:->A3"
+   ],
+   "instructor": [
+    "Instructor: Mr. Stephen Telian",
+    "Instructor: Mr. Stanton Collins",
+    "Instructor: Mr. Tom Hanks",
+    "Instructor: Mr. Tom Holland",
+    "Instructor: Ms. Sandra Bullocks",
+    "Instructor: Ms. Elizabeth Banks"
+   ]
+  },
+  "Unit: Structure Programming": {
+   "daytime": [
+    "wednesday at 8:00am",
+    "wednesday at 9:00am",
+    "wednesday at 10:00am",
+    "wednesday at 11:00am",
+    "wednesday at 12:00pm",
+    "thursday at 8:00am",
+    "thursday at 9:00am",
+    "thursday at 10:00am",
+    "thursday at 11:00am",
+    "thursday at 12:00pm"
+   ],
+   "room": [
+    "Room:->A1",
+    "Room:->A2",
+    "Room:->A3"
+   ],
+   "instructor": [
+    "Instructor: Mr. Stephen Telian",
+    "Instructor: Mr. Stanton Collins",
+    "Instructor: Mr. Stanley Baraka",
+    "Instructor: Mr. Tom Hanks",
+    "Instructor: Mr. Tom Holland",
+    "Instructor: Ms. Sandra Bullocks",
+    "Instructor: Ms. Elizabeth Banks"
+   ]
+  },
+  "Unit: Introduction to Databases": {
+   "daytime": [
+    "wednesday at 8:00am",
+    "wednesday at 9:00am",
+    "wednesday at 10:00am",
+    "wednesday at 11:00am",
+    "wednesday at 12:00pm",
+    "thursday at 8:00am",
+    "thursday at 9:00am",
+    "thursday at 10:00am",
+    "thursday at 11:00am",
+    "thursday at 12:00pm"
+   ],
+   "room": [
+    "Room:->A1",
+    "Room:->A2"
+   ],
+   "instructor": [
+    "Instructor: Mr. Stanley Baraka",
+    "Instructor: Mr. Tom Hanks"
+   ]
+  }
+ }
+}
