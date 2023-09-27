@@ -1,28 +1,19 @@
-from typing import Any, Dict
-from Errors.Error import *
-from Errors.Exception import *
-from Models.ConstraintSatisfaction.Domain import Domain
+from typing import Dict, Tuple
+from Errors.Error import InvalidPreferenceFixing
+from Errors.Exception import * 
 from Objects.User.Preference.Preference import *
 
 
-class NodeConsistency:
-    def __init__(self, reader_output:Dict[str, Any], variables ,resources, type_) -> None:
-        self.reader_output = reader_output
-        self.timelines = self.reader_output["configuration"].timelines
+class PreferencesReduction:
+    def __init__(self, preferences, values: dict, type_: str|None=None) -> None:
+        self.preferences = preferences
+        self.values = values
         self.type_ = type_
        
-        self.domain: Domain = Domain(variables, resources)
-        self.variables = variables
-        
-    def Consistency(self):
-        for variable in self.variables:
-            preferences = variable.preferences
-            values = self.domain.get_value(variable).copy()
-            final_value, change = self.lookup_value_maintainance(preferences, values)
-            
-           
-            if change: self.domain.set_value(variable, final_value)
-       
+    
+    def Reduce(self) -> Tuple[dict, bool]:
+
+        return self.lookup_value_maintainance(self.preferences, self.values)
         
     def lookup_value_maintainance(self, rule: Rule, value: Dict[str, any]):
         new_value = value.copy()
@@ -227,8 +218,3 @@ class NodeConsistency:
         if lookup_str == type_:
             raise SimilarObjectToPreference(lookup_str, type_)
         return False
-
-    def Output(self):
-       
-        return self.domain
-    

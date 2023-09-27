@@ -77,7 +77,7 @@ class DataReader:
         for programme in self.data["programmes"]:
             p = Programme(programme["id"], programme["title"])
             
-            groups = [Group(group["id"],group["title"], PreferenceParser(group["preferences"]).Parse(), units=group["units"])for group in programme["groups"]]
+            groups = [Group(group["id"],group["total"], PreferenceParser(group["preferences"]).Parse(), units=group["units"])for group in programme["groups"]]
             self.groups.extend(groups)
             p.groups = groups
             self.programmes.append(p)

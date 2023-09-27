@@ -45,5 +45,9 @@ class SimilarObjectToPreference(CustomException):
         super().__init__(string="SimilarObjectToPreference", message=f"Similar Object '{type_}' to placed preference {lookup_str}")
 
 class NoValueFound(CustomException):
-    def __init__(self, static_variable) -> None:
-        super().__init__(message=f"Exhausted all values for {static_variable}", string="NoValueFound")
+    def __init__(self, static_variable, value="value") -> None:
+        super().__init__(message=f"Exhausted all {value} for {static_variable}", string="NoValueFound")
+
+class NoAssignmenetPossible(CustomException):
+    def __init__(self, message: str, string="") -> None:
+        super().__init__(message, string)

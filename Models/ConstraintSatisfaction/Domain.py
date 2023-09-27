@@ -12,8 +12,6 @@ class Domain:
         self.taken_values = {}
     
     def get_value(self, variable):
-
-   
         index = self.variables.index(variable)
         return self.values[index]
     
@@ -21,11 +19,11 @@ class Domain:
         index = self.variables.index(variable)
         self.values[index] = value
     
-    def serial(self) -> int:
-        values = {k : [str(s)for s in v] for k, v in self.values[0].items()}
-     
-        return {str(self.variables[i]): {k : [str(s)for s in v] for k, v in self.values[i].items()} for i in range(len(self.variables))}
+ 
+
+        
     
+ 
     def __str__(self) -> str:
     
         return str([f"{self.variables[i]}: {self.values[i]}" for i in range(len(self.variables))])

@@ -11,10 +11,10 @@ from Objects.Physical.Rooms import Room
 
 
 class Assignment:
-    def __init__(self, static_variables: List[Static]) -> None:
+    def __init__(self, static_variables: List[Static], values: dict) -> None:
         self.static_variables = static_variables
 
-        self.values = [{"daytime": None, "room": None, "instructor": ""} for _ in self.static_variables]
+        self.values = [values for _ in self.static_variables]
       
 
     def get_value(self, static_variable: Static, index: bool=False):
@@ -22,32 +22,18 @@ class Assignment:
         return self.values[i] if not index else i
     
     def set_value(self, static_variable: Static, value: Dict[str, None | Any]):
-        index = self.get_value(static_variable, True)
-        self.value[index] = value
+        i = self.static_variables.index(static_variable)
+        
+        self.values[i] = value
     
-    def set_daytime(self, static_variable, daytime:DayTime):
+    def set_specific_value(self, static_variable, value, type):
         values = self.get_value(static_variable)
-        values["daytime"] = daytime
+        values[type] = value
 
-    def get_daytime(self, static_variable):
+    def get_specific_value(self, static_variable, type):
         values = self.get_value(static_variable)
-        return values["daytime"]
+        return values[type]
     
-    def set_instructor(self, static_variable, instructor: Instructor):
-        values = self.get_value(static_variable)
-        values["instructor"] = instructor
-
-    def get_instructor(self, static_variable):
-        values = self.get_value(static_variable)
-        return values["instructor"]
-    
-    def set_room(self, static_variable, room: Room):
-        values = self.get_value(static_variable)
-        values["room"] = room
-
-    def get_room(self, static_variable):
-        values = self.get_value(static_variable)
-        return values["room"]
 
     def is_complete(self)->bool:
         for value in self.values:
@@ -55,11 +41,23 @@ class Assignment:
                 if v is None: return False
         return True
     
+    def is_consistent(self)->bool:
+        for i in range(len(self.values)):
+            for j in range(i + 1, len(self.values)):
+                if self.values[i] == self.values[j]:
+                    return True
+        return False
+    def check_if_consistent(self, value):
+        self.values.append(value)
+        check  = self.is_consistent()
+        self.values.pop()
+        return check
+
     def Output (self) -> str:
         sessions = []
         for index, variable in enumerate(self.static_variables):
             values = self.values[index]
-            dynamic_variable = Dynamic(None, values["daytime"].time, values["daytime"].day, values["room"])
+            dynamic_variable = Dynamic(values["daytime"].time, values["daytime"].day, values["room"])
             sessions.append(Session(variable, dynamic_variable))
            
         return sessions

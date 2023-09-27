@@ -29,14 +29,14 @@
             
             "groups": 
                 [
-                    {"id": 1,"title": "first year", "total": 20, "preferences": null, "units": [1, 2, 3]},
+                    {"id": 1,"title": "first year", "total": 50, "preferences": null, "units": [1, 2, 3]},
                      {"id": 2, "title": "second year", "total": 20, "preferences": null, "units": [1, 4, 2, 3]}]
         },
         {"id": 2, "title": "Health Science",
             
             "groups": 
                 [
-                    {"id": 3,"title": "first year", "total": 20, "preferences": null, "units": [1, 2 ]},
+                    {"id": 3,"title": "first year", "total": 30, "preferences": null, "units": [1, 2 ]},
                      {"id": 4, "title": "second year", "total": 20, "preferences": null, "units": [1, 5, 2, 3]}]
         },
         {"id": 3, "title": "Engineering",
@@ -44,7 +44,7 @@
             "groups": 
                 [
                     {"id": 5,"title": "first year", "total": 20, "preferences": null, "units": [1, 2, 3, 6]},
-                     {"id": 6, "title": "second year", "total": 20, "preferences": null, "units": [1, 6, 3]}]
+                     {"id": 6, "title": "second year", "total": 40, "preferences": null, "units": [1, 6, 3]}]
         }
        
     
@@ -62,16 +62,17 @@
     ],
     "units": [
         {"id": 1, "title": "Energy and Empirical Measurements", "instructors": [1], "sessions": 1 , "preferences": "{EXCEPT [TIME:->'8:00am'], [TIME:->'9:00am']}"},
-        {"id": 2, "title": "Introduction to Computers", "instructors": [6], "sessions": 1 , "preferences": "{ONLY [DAY:->'Tuesday'], [ROOM:->'1']}"},
+        {"id": 2, "title": "Introduction to Computers", "instructors": [5], "sessions": 1 , "preferences": null},
         {"id": 3, "title": "Transmitted Diseases", "instructors": [3], "sessions": 1 , "preferences": "{ONLY [DAY:->'Monday', [DAY:->'Wednesday']}"},
-        {"id": 4, "title": "Management", "instructors": [2], "sessions": 1 , "preferences": "{EXCEPT [DAY:->'Monday'], [TIME:->'9:00am'], [INSTRUCTOR:->3]}"},
+        {"id": 4, "title": "Management", "instructors": [2], "sessions": 1 , "preferences": "{EXCEPT [DAY:->'Monday'], [TIME:->'9:00am']}"},
         {"id": 5, "title": "Structure Programming", "instructors": [7], "sessions": 1 , "preferences": "{EXCEPT [DAY:->'Tuesday']}"},
-        {"id": 6, "title": "Introduction to Databases", "instructors": [7], "sessions": 1 , "preferences": "{ONLY [INSTRUCTOR:->3], [INSTRUCTOR:->4], [ROOM:->1], [ROOM:->2]}"}
+        {"id": 6, "title": "Introduction to Databases", "instructors": [7], "sessions": 1 , "preferences": "{ONLY [ROOM:->1], [ROOM:->2]}"}
            
     ],
     "rooms": [
         {"id": 1, "name": "A1", "capacity": 20, "preferences": "ALL"},
-        {"id": 2, "name": "A2", "capacity": 40, "preferences": "{AFTER [TIME:->'9:00am']}"},
-        {"id": 3, "name": "A3", "capacity": 60, "preferences": "{AFTER [DAYTIME:->'Monday at 9:00am']}"}
+        {"id": 2, "name": "A2", "capacity": 40, "preferences": "ALL"},
+        {"id": 3, "name": "A3", "capacity": 60, "preferences": "ALL"},
+        {"id": 3, "name": "A4", "capacity": 100, "preferences": "ALL"}
     ]
 }

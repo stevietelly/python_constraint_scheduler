@@ -8,7 +8,7 @@ class Timetable:
     def __init__(self,sessions: List[Session]) -> None:
        
         self.sessions =  sessions
-        return self.Output()
+        
     
     def Output(self):
         sessions = []
