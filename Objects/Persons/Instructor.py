@@ -1,4 +1,4 @@
-from Objects.User.Preference.Preference import Rule
+from Objects.Internal.Preference.Preference import Rule
 
 
 class Instructor:
@@ -7,10 +7,7 @@ class Instructor:
     a probbale session. Its an all inclusive term for Professors,
     teachers, Teaching Assistanst e.t.c
     """
-    def __init__(self, name: str, title: str, identifier: int, preferences: Rule):
-       
-        self.name = name
-        self.title = title
+    def __init__(self, identifier: int, preferences: Rule):
         self.identifier: int = identifier
         self.preferences = preferences
       
@@ -32,10 +29,7 @@ class Instructor:
         return not self.__eq__(other)
 
     def __str__(self):
-        return f'Instructor: {self.title} {self.name}'
+        return f'Instructor: {self.identifier}'
 
     def __repr__(self):
         return str(self)
-    
-    def __hash__(self) -> int:
-        return hash((self.name, self.title, self.gender))

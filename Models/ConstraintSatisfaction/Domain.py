@@ -20,10 +20,11 @@ class Domain:
         self.values[index] = value
     
  
-
+    def all_variables_ascending_values(self):
+        totals = [(index, len(value)) for index, value in enumerate(self.values)]
+        totals.sort(key=lambda x: x[1])
+        return [self.variables[total[0]] for total in totals]
         
-    
- 
     def __str__(self) -> str:
     
         return str([f"{self.variables[i]}: {self.values[i]}" for i in range(len(self.variables))])

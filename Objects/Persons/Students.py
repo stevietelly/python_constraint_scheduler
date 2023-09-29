@@ -1,4 +1,4 @@
-from Objects.User.Preference.Preference import Rule
+from Objects.Internal.Preference.Preference import Rule
 
 
 class Group:

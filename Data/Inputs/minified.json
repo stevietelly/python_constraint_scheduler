@@ -2,77 +2,50 @@
     "configuration": 
     {
         "name": "",
-        "meta_data": {
-            "input_version": "0.3.0",
-            "generator_type": "manual",
-            "generator_version": null
-        },
-        "days": ["Monday","Tuesday", "Wednesday", "Thursday"],
+        "meta_data": {"input_version": "0.4.0", "generator_type": "manual","generator_version": null},
+        "days": ["Monday","Tuesday", "Wednesday"],
         "priorities": {"room": null, "instructors": null, "units": null, "groups": null},
         "start_time": "8:00am",
-        "end_time": "12:00pm",
-        "duration": {
-            "maximum": 3,
-            "minimum": 1,
-            "division": "hour"
-        },
-        "constraint_satisfaction": {
-            "soft": null,
-            "hard": null
-        },
+        "end_time": "15:00pm",
+        "duration": {"maximum": 3, "minimum": 1, "division": "hour"},
+        "constraint_satisfaction": {"soft": null, "hard": null},
         "consecutive": {"room": null, "instructor": null, "group": null},
         "system": {"limit": 0, "saturation": true, "tries": 0}
     },
    
-    "programmes": [ 
-        {"id": 1, "title": "Education",
-            
-            "groups": 
-                [
-                    {"id": 1,"title": "first year", "total": 50, "preferences": null, "units": [1, 2, 3]},
-                     {"id": 2, "title": "second year", "total": 20, "preferences": null, "units": [1, 4, 2, 3]}]
-        },
-        {"id": 2, "title": "Health Science",
-            
-            "groups": 
-                [
-                    {"id": 3,"title": "first year", "total": 30, "preferences": null, "units": [1, 2 ]},
-                     {"id": 4, "title": "second year", "total": 20, "preferences": null, "units": [1, 5, 2, 3]}]
-        },
-        {"id": 3, "title": "Engineering",
-            
-            "groups": 
-                [
-                    {"id": 5,"title": "first year", "total": 20, "preferences": null, "units": [1, 2, 3, 6]},
-                     {"id": 6, "title": "second year", "total": 40, "preferences": null, "units": [1, 6, 3]}]
-        }
-       
-    
-       
-       
+    "groups": 
+    [ 
+        {"id": 1, "total": 50, "preferences": null, "units": [1, 2, 3]},
+        {"id": 2, "total": 20, "preferences": "{EXCEPT [DAY:->'Tuesday'}", "units": [1, 4, 2, 3]},
+        {"id": 3, "total": 30, "preferences": null, "units": [1, 2 ]},
+        {"id": 4, "total": 20, "preferences": null, "units": [1, 5, 2, 3]},
+        {"id": 5, "total": 20, "preferences": null, "units": [1, 2, 3, 6]},
+        {"id": 6, "total": 40, "preferences": null, "units": [1, 6, 3]}
     ],
-    "instructors": [
-        {"id": 1, "name": "Stephen Telian", "title": "Mr.", "preferences": null},
-        {"id": 2, "name": "Stanton Collins", "title": "Mr.", "preferences": null},
-        {"id": 3, "name": "Stanley Baraka", "title": "Mr.", "preferences": null},
-        {"id": 4, "name": "Tom Hanks", "title": "Mr.", "preferences": null},
-        {"id": 5, "name": "Tom Holland", "title": "Mr.", "preferences": null},
-        {"id": 6, "name": "Sandra Bullocks", "title": "Ms.", "preferences": null},
-        {"id": 7, "name": "Elizabeth Banks", "title": "Ms.", "preferences": null}
+    "instructors": 
+    [
+        {"id": 1, "preferences": "{EXCEPT [DAY:->'Monday'}"},
+        {"id": 2, "preferences": null},
+        {"id": 3, "preferences": null},
+        {"id": 4, "preferences": null},
+        {"id": 5, "preferences": null},
+        {"id": 6, "preferences": null},
+        {"id": 7, "preferences": null}
     ],
     "units": [
-        {"id": 1, "title": "Energy and Empirical Measurements", "instructors": [1], "sessions": 1 , "preferences": "{EXCEPT [TIME:->'8:00am'], [TIME:->'9:00am']}"},
-        {"id": 2, "title": "Introduction to Computers", "instructors": [5], "sessions": 1 , "preferences": null},
-        {"id": 3, "title": "Transmitted Diseases", "instructors": [3], "sessions": 1 , "preferences": "{ONLY [DAY:->'Monday', [DAY:->'Wednesday']}"},
-        {"id": 4, "title": "Management", "instructors": [2], "sessions": 1 , "preferences": "{EXCEPT [DAY:->'Monday'], [TIME:->'9:00am']}"},
-        {"id": 5, "title": "Structure Programming", "instructors": [7], "sessions": 1 , "preferences": "{EXCEPT [DAY:->'Tuesday']}"},
-        {"id": 6, "title": "Introduction to Databases", "instructors": [7], "sessions": 1 , "preferences": "{ONLY [ROOM:->1], [ROOM:->2]}"}
+        {"id": 1, "instructors": [1], "sessions": 1 , "preferences": null},
+        {"id": 2, "instructors": [5], "sessions": 1 , "preferences": null},
+        {"id": 3, "instructors": [4], "sessions": 1 , "preferences": null},
+        {"id": 4, "instructors": [3], "sessions": 1 , "preferences": "{EXCEPT [DAY:->'Monday'], [TIME:->'9:00am']}"},
+        {"id": 5, "instructors": [7], "sessions": 1 , "preferences": null},
+        {"id": 6, "instructors": [6], "sessions": 1 , "preferences": "{ONLY [ROOM:->1], [ROOM:->2]}"}
            
     ],
     "rooms": [
-        {"id": 1, "name": "A1", "capacity": 20, "preferences": "ALL"},
-        {"id": 2, "name": "A2", "capacity": 40, "preferences": "ALL"},
-        {"id": 3, "name": "A3", "capacity": 60, "preferences": "ALL"},
-        {"id": 3, "name": "A4", "capacity": 100, "preferences": "ALL"}
+        {"id": 1, "capacity": 60, "preferences": "ALL"},
+        {"id": 2, "capacity": 90, "preferences": "ALL"},
+        {"id": 3, "capacity": 40, "preferences": "ALL"},
+        {"id": 4, "capacity": 100, "preferences": "ALL"}
+       
     ]
 }

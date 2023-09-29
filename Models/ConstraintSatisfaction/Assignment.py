@@ -15,7 +15,7 @@ class Assignment:
         self.static_variables = static_variables
 
         self.values = [values for _ in self.static_variables]
-      
+        self.last_assigned: Static = None
 
     def get_value(self, static_variable: Static, index: bool=False):
         i = self.static_variables.index(static_variable)
@@ -25,6 +25,7 @@ class Assignment:
         i = self.static_variables.index(static_variable)
         
         self.values[i] = value
+        self.last_assigned = static_variable
     
     def set_specific_value(self, static_variable, value, type):
         values = self.get_value(static_variable)
@@ -37,7 +38,9 @@ class Assignment:
 
     def is_complete(self)->bool:
         for value in self.values:
+        
             for _, v in value.items():
+     
                 if v is None: return False
         return True
     
@@ -45,18 +48,18 @@ class Assignment:
         for i in range(len(self.values)):
             for j in range(i + 1, len(self.values)):
                 if self.values[i] == self.values[j]:
-                    return True
-        return False
+                    return False
+        return True
     def check_if_consistent(self, value):
-        self.values.append(value)
-        check  = self.is_consistent()
-        self.values.pop()
-        return check
+        if None in value.values(): return False
+        return not value in self.values
 
     def Output (self) -> str:
+        
         sessions = []
         for index, variable in enumerate(self.static_variables):
             values = self.values[index]
+
             dynamic_variable = Dynamic(values["daytime"].time, values["daytime"].day, values["room"])
             sessions.append(Session(variable, dynamic_variable))
            
@@ -65,10 +68,16 @@ class Assignment:
     def __str__(self) -> str:
         return str(self.Output())
     
+    def check_if_assigned(self, variable):
+        values: dict = self.get_value(variable)
+        for _, v in values.items():
+            if v is None: return False
+        return True 
+    
     def select_unnasigned(self):
-        for value in self.values:
+        for index, value in enumerate(self.values):
             for _, v in value.items():
-                if v is None: return self.static_variables[self.values.index(value)]
+                if v is None: return self.static_variables[index]
 
     def select_all_assigned(self)->List[Static]:
         assigned = []
@@ -78,5 +87,5 @@ class Assignment:
         return assigned
     
     def select_last_assigned(self)->Static:
-        return self.select_all_assigned()[-1]
+        return self.last_assigned
    

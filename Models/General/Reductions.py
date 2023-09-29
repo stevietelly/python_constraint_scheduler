@@ -1,7 +1,7 @@
 from typing import Dict, Tuple
 from Errors.Error import InvalidPreferenceFixing
 from Errors.Exception import * 
-from Objects.User.Preference.Preference import *
+from Objects.Internal.Preference.Preference import *
 
 
 class PreferencesReduction:
@@ -10,7 +10,6 @@ class PreferencesReduction:
         self.values = values
         self.type_ = type_
        
-    
     def Reduce(self) -> Tuple[dict, bool]:
 
         return self.lookup_value_maintainance(self.preferences, self.values)
@@ -100,7 +99,6 @@ class PreferencesReduction:
                         values["instructor"].extend([instructor for instructor in value_copies["instructor"] if instructor.identifier == lookup.value ])
                     if values['instructor'] == []: raise OverPreferencing(lookup, type_, "only")
  
-
     def after_rule_action(self, rule: Rule, values):
         type_=self.type_
         lookups = rule.value
@@ -190,6 +188,7 @@ class PreferencesReduction:
 
                 case "day":
                     singular_values: list = values['daytime']
+                 
                     relevant = [daytime for daytime in singular_values if daytime.day == lookup.value]
                     [singular_values.remove(r) for r in relevant]
                     values['daytime'] = singular_values
@@ -212,7 +211,6 @@ class PreferencesReduction:
                     
                     InvalidPreferenceFixing("Unit", "EXCEPT")
 
- 
     def on_similar_type(self, lookup_str, type_):
        
         if lookup_str == type_:

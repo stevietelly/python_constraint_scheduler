@@ -1,6 +1,8 @@
 import json
 import os
 
+from Assets.Functions.Echo import Echo
+echo = Echo()
 
 class Read:
     """
@@ -11,6 +13,8 @@ class Read:
     def __init__(self, filename: str, filetype: str = "json"):
         self.fn = filename
         self.filetype = filetype
+        echo.print(f"Reading File '{filename}'", color="magenta")
+
 
     def _handle_txt(self):
         config = {}
