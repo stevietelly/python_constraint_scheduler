@@ -1,17 +1,17 @@
 from typing import *
+from Assets.FileHandling.Read import Read
 from Assets.Functions.Echo import Echo
 from Assets.Functions.Utilities import return_list_of_days
-from Data.Parser.BackwardsCompatibility.Reader import V_0_2_0
 from Data.Parser.Preferences import PreferenceParser
+from Errors.Exception import IncompatibleVersion
 from Logic.DateTime.Time import Time
 from Logic.Structure.Configuration import Configuration
-from Objects.Academic.Programme import Programme
 from Objects.Academic.Units import Unit
 from Objects.Persons.Instructor import Instructor
 from Objects.Persons.Students import Group
 
 from Objects.Physical.Rooms import Room
-
+echo = Echo()
 class DataReader:
     """
     This is the data Encoder,that converts the different
@@ -20,31 +20,34 @@ class DataReader:
     def __init__(self, data: Dict) -> None:
         self.data = data
 
-        self.configuration, self.units, self.instructors, self.programmes, self.rooms, self.groups = None, [], [], [], [], []
+        self.configuration, self.units, self.instructors, self.rooms, self.groups = None, [], [], [], []
 
-        if data["configuration"]["meta_data"]["input_version"] == "0.2.0":
-            echo = Echo()
-            echo.unmute(f"Input Version is 0.2.0 Defaulting to compatible version", color="magenta")
-            reader = V_0_2_0(data)
-            reader.Encode()
-            self.configuration, self.units, self.instructors, self.programmes, self.rooms = reader.configuration, reader.units, reader.instructors, reader.programmes, reader.rooms
-            print("version 0.2.0")
-            exit()
-    
+        if not data["configuration"]["meta_data"]["input_version"] == "0.4.0": raise IncompatibleVersion("0.4.0", data["configuration"]["meta_data"]["input_version"], "Input")
+            
+        echo.print("\nEnoding Discovered Objects", color="magenta")
     def Encode(self):
         """
         Convert to python Objects
         """
+       
+        echo.print("Reading Rooms", color="green")
         self._encode_rooms()
+        echo.print("Reading Units", color="green")
+
         self._encode_units()
+        echo.print("Reading Instructors", color="green")
+
         self._encode_instructors()
+        echo.print("Reading Configuration", color="green")
+
         self._encode_configuration()
-        self._encode_programmes()
+        echo.print("Reading Groups", color="green")
+
+        self._encode_groups()
 
     def Output(self)->dict:
         return {
         "configuration": self.configuration,
-        "programmes": self.programmes,
         "instructors": self.instructors,
         "units": self.units,
         "rooms": self.rooms,
@@ -53,17 +56,17 @@ class DataReader:
     
     def _encode_rooms(self):
         for room in self.data["rooms"]:
-            r = Room(room["id"], room["name"], room["capacity"], PreferenceParser(room["preferences"]).Parse())
+            r = Room(room["id"], room["capacity"], PreferenceParser(room["preferences"]).Parse())
             self.rooms.append(r)
 
     def _encode_units(self):
         for unit in self.data["units"]:
-            u = Unit(unit["id"], unit["title"], unit["sessions"], unit["instructors"], PreferenceParser(unit["preferences"]).Parse())
+            u = Unit(unit["id"], unit["sessions"], unit["instructors"], PreferenceParser(unit["preferences"]).Parse())
             self.units.append(u)
 
     def _encode_instructors(self):
         for instructor in self.data["instructors"]:
-            i =  Instructor(instructor["name"], instructor["title"], instructor["id"], PreferenceParser(instructor["preferences"]).Parse())
+            i =  Instructor(instructor["id"], PreferenceParser(instructor["preferences"]).Parse())
             self.instructors.append(i)
     
     def _encode_configuration(self):
@@ -71,14 +74,10 @@ class DataReader:
         start, end = Time(configuration["start_time"]), Time(configuration["end_time"])
         days = return_list_of_days(configuration["days"], start, end) 
         system = {"duration_per_session": configuration["duration"]["minimum"], "total_duration_for_sessions": configuration["duration"]["maximum"]}
-        self.configuration = Configuration(configuration["name"], start, end, days, system)
+        self.configuration = Configuration(configuration["name"], start, end, days, system, configuration["meta_data"])
 
-    def _encode_programmes(self):
-        for programme in self.data["programmes"]:
-            p = Programme(programme["id"], programme["title"])
+    def _encode_groups(self):
+        for group in self.data["groups"]:
+            self.groups.append(Group(group["id"], group["total"], PreferenceParser(group["preferences"]).Parse(), group["units"]))
             
-            groups = [Group(group["id"],group["title"], PreferenceParser(group["preferences"]).Parse(), units=group["units"])for group in programme["groups"]]
-            self.groups.extend(groups)
-            p.groups = groups
-            self.programmes.append(p)
-            
+  

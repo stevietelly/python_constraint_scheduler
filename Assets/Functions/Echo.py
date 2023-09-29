@@ -1,7 +1,7 @@
 from typing import Any
 import sys
 import termcolor
-from termcolor import COLORS
+
 
 class Echo:
     state: bool = False

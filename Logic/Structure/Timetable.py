@@ -8,7 +8,15 @@ class Timetable:
     def __init__(self,sessions: List[Session]) -> None:
        
         self.sessions =  sessions
-        return self.Output()
+        self.EvaluateTimetable()
+    
+    def EvaluateTimetable(self):
+        for session in self.sessions:
+            preferences = []
+            preferences.append(session.static_variable.group.preferences)
+            preferences.append(session.static_variable.instructor.preferences)
+            preferences.append(session.static_variable.unit.preferences)
+        
     
     def Output(self):
         sessions = []

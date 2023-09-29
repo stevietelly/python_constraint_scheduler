@@ -73,3 +73,5 @@ INPUT_FILE_STRUCTURE = {"configuration": CONFIGURATION, "instructors": INSTRUCTO
 ALGORITHMS = ["constraint_satisfaction", "genetic", "annealing"]
 
 VALID_DAYS = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
+
+VALID_GENERATOR_TYPES = ["manual", "automatic"]

@@ -3,17 +3,21 @@ from Logic.DateTime.Day import Day
 from Logic.DateTime.Time import Time
 from typing import List, Dict, Union
 from Logic.DateTime.Week import Week
+from Objects.Internal.Metadata import InputMetadata
 
 
 class Configuration:
     """
     Data required to calibrate internal working of the program
     """
-    def __init__(self, name:str, start_time: Time, end_time: Time, days: List[Day], system: dict) -> None:
+    def __init__(self, name:str, start_time: Time, end_time: Time, days: List[Day], system: dict, metadata) -> None:
         self.instiution_name: str = name
         self.start_time = start_time
         self.end_time = end_time
+        self.metadata: InputMetadata = InputMetadata(metadata["input_version"], metadata["generator_type"], metadata["generator_version"])
 
+
+        
         self.days = days
         self.week: Week = Week(self.days) 
         self.duration_per_session:int = system["duration_per_session"]

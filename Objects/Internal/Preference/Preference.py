@@ -4,7 +4,7 @@ from Logic.DateTime.Day import Day
 from typing import List
 from Logic.DateTime.DayTime import DayTime
 from Logic.DateTime.Time import Time
-from Objects.User.Preference.Lookup import Lookup
+from Objects.Internal.Preference.Lookup import Lookup
 
 
 
@@ -90,4 +90,3 @@ class And(Conjuction):
 
     def __repr__(self):
         return f"And({str(*self.values)}"
-

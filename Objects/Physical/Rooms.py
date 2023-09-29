@@ -1,4 +1,4 @@
-from Objects.User.Preference.Preference import Rule
+from Objects.Internal.Preference.Preference import Rule
 
 
 class Room:
@@ -11,23 +11,19 @@ class Room:
         inst = object.__new__(cls)
         return inst
 
-    def __init__(self, identifier: int, name: str, capacity: int, preferences: Rule):
+    def __init__(self, identifier: int, capacity: int, preferences: Rule):
         
-        self.name: str = name.capitalize()
+      
         self.identifier: int = identifier
         self.capacity: int = capacity
         self.preferences = preferences
 
         
     def __str__(self):
-        return f'Room:->{self.name}'
+        return f'Room:->{self.identifier}'
 
     def __repr__(self):
-        return f'Room: {self.name}'
-
-    def __del__(self):
-        self.free_periods = []
-        del self
+        return f'Room: {self.identifier}'
 
     def __eq__(self, other):
         """
@@ -35,7 +31,7 @@ class Room:
         Returns Boolean
         """
         if not isinstance(other, Room): return False
-        if self.name == other.name:
+        if self.identifier == other.identifier:
             return True
         return False
 

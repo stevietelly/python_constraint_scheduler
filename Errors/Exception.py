@@ -45,5 +45,21 @@ class SimilarObjectToPreference(CustomException):
         super().__init__(string="SimilarObjectToPreference", message=f"Similar Object '{type_}' to placed preference {lookup_str}")
 
 class NoValueFound(CustomException):
-    def __init__(self, static_variable) -> None:
-        super().__init__(message=f"Exhausted all values for {static_variable}", string="NoValueFound")
+    def __init__(self, static_variable, value="value") -> None:
+        super().__init__(message=f"Exhausted all {value} for {static_variable}", string="NoValueFound")
+
+class NoAssignmenetPossible(CustomException):
+    def __init__(self, clue) -> None:
+        super().__init__(message=f"No assignment is possible, Check Temporal Values, {clue}", string="NoAssignmentPossible")
+
+class IncompatibleVersion(CustomException):
+    def __init__(self, allowed_minimum_version: str, current_version, module_name) -> None:
+        super().__init__(message=f"Incompatible {module_name} version, only version >= {allowed_minimum_version} allowed not version {current_version}", string="IncompatibleVerion")
+
+class InvalidGeneratorType(CustomException):
+    def __init__(self, generatortype) -> None:
+        super().__init__(message=f"Invalid Generator type '{generatortype}'", string="InvalidGeneratorType")
+
+class InvalidColor(CustomException):
+    def __init__(self, color) -> None:
+        super().__init__(message=f"Incomaptaible color '{color}'", string="InvalidColor")

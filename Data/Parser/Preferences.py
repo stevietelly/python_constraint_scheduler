@@ -1,8 +1,8 @@
 from typing import Union
 from Errors.Exception import *
 from Logic.DateTime.Day import Day
-from Objects.User.Preference.Preference import *
-from Objects.User.Preference.Lookup import *
+from Objects.Internal.Preference.Preference import *
+from Objects.Internal.Preference.Lookup import *
 
 
 

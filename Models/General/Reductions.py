@@ -1,28 +1,18 @@
-from typing import Any, Dict
-from Errors.Error import *
-from Errors.Exception import *
-from Models.ConstraintSatisfaction.Domain import Domain
-from Objects.User.Preference.Preference import *
+from typing import Dict, Tuple
+from Errors.Error import InvalidPreferenceFixing
+from Errors.Exception import * 
+from Objects.Internal.Preference.Preference import *
 
 
-class NodeConsistency:
-    def __init__(self, reader_output:Dict[str, Any], variables ,resources, type_) -> None:
-        self.reader_output = reader_output
-        self.timelines = self.reader_output["configuration"].timelines
+class PreferencesReduction:
+    def __init__(self, preferences, values: dict, type_: str|None=None) -> None:
+        self.preferences = preferences
+        self.values = values
         self.type_ = type_
        
-        self.domain: Domain = Domain(variables, resources)
-        self.variables = variables
-        
-    def Consistency(self):
-        for variable in self.variables:
-            preferences = variable.preferences
-            values = self.domain.get_value(variable).copy()
-            final_value, change = self.lookup_value_maintainance(preferences, values)
-            
-           
-            if change: self.domain.set_value(variable, final_value)
-       
+    def Reduce(self) -> Tuple[dict, bool]:
+
+        return self.lookup_value_maintainance(self.preferences, self.values)
         
     def lookup_value_maintainance(self, rule: Rule, value: Dict[str, any]):
         new_value = value.copy()
@@ -109,7 +99,6 @@ class NodeConsistency:
                         values["instructor"].extend([instructor for instructor in value_copies["instructor"] if instructor.identifier == lookup.value ])
                     if values['instructor'] == []: raise OverPreferencing(lookup, type_, "only")
  
-
     def after_rule_action(self, rule: Rule, values):
         type_=self.type_
         lookups = rule.value
@@ -199,6 +188,7 @@ class NodeConsistency:
 
                 case "day":
                     singular_values: list = values['daytime']
+                 
                     relevant = [daytime for daytime in singular_values if daytime.day == lookup.value]
                     [singular_values.remove(r) for r in relevant]
                     values['daytime'] = singular_values
@@ -221,14 +211,8 @@ class NodeConsistency:
                     
                     InvalidPreferenceFixing("Unit", "EXCEPT")
 
- 
     def on_similar_type(self, lookup_str, type_):
        
         if lookup_str == type_:
             raise SimilarObjectToPreference(lookup_str, type_)
         return False
-
-    def Output(self):
-       
-        return self.domain
-    
