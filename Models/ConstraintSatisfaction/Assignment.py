@@ -17,6 +17,8 @@ class Assignment:
         self.values = [values for _ in self.static_variables]
         self.last_assigned: Static = None
 
+        self.instructors_static = self.static_variables[0].instructor is None
+
     def get_value(self, static_variable: Static, index: bool=False):
         i = self.static_variables.index(static_variable)
         return self.values[i] if not index else i
@@ -35,7 +37,6 @@ class Assignment:
         values = self.get_value(static_variable)
         return values[type]
     
-
     def is_complete(self)->bool:
         for value in self.values:
         
@@ -45,23 +46,34 @@ class Assignment:
         return True
     
     def is_consistent(self)->bool:
-        for i in range(len(self.values)):
-            for j in range(i + 1, len(self.values)):
-                if self.values[i] == self.values[j]:
-                    return False
+        for index, variable in enumerate(self.static_variables):
+            if not self.check_if_consistent(variable, self.values[index]): return False
+                
+   
         return True
-    def check_if_consistent(self, value):
+    
+    def check_if_consistent(self, variable, value):
         if None in value.values(): return False
+
+        if self.instructors_static:
+            for vls in self.values:
+                if None in vls.values(): break
+                room_clashes = [v["room"] == vls["room"] and v["daytime"] == vls["daytime"] for v in self.values]
+                instructor_clashes = [v["instructor"] == vls["instructor"] and v["daytime"] == vls["daytime"] for v in self.values]
+                if any(instructor_clashes) or room_clashes: return False
         return not value in self.values
 
     def Output (self) -> str:
         
         sessions = []
+        identifier =  0
         for index, variable in enumerate(self.static_variables):
+            identifier += 1
             values = self.values[index]
+            instructor = values["instructor"] if self.instructors_static else variable.instructor
 
-            dynamic_variable = Dynamic(values["daytime"].time, values["daytime"].day, values["room"])
-            sessions.append(Session(variable, dynamic_variable))
+           
+            sessions.append(Session(identifier, variable.group, variable.unit, instructor, values["daytime"], values["room"]))
            
         return sessions
     

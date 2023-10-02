@@ -12,13 +12,12 @@ class CustomException:
      
         self.message = message
 
-        Echo().exit(f"{self.string}: {self.message}")
+        Echo().exit(f"{self.__class__}: {self.message}")
         exit()
 
 class MissingClassList(CustomException):
     def __init__(self) -> None:
         super().__init__("Per instructions please input a list of str inside Day.days", "Missing Class List")
-
 
 class InvalidPreferenceSyntax(CustomException):
     def __init__(self, message: str, invalid_preference: str) -> None:
@@ -63,3 +62,7 @@ class InvalidGeneratorType(CustomException):
 class InvalidColor(CustomException):
     def __init__(self, color) -> None:
         super().__init__(message=f"Incomaptaible color '{color}'", string="InvalidColor")
+
+class IncompleteAssignment(CustomException):
+    def __init__(self,) -> None:
+        super().__init__(message="Assignment has not been Completed, please send through an algorithim")

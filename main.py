@@ -12,8 +12,11 @@ Echo.state = True
 d = DataReader(Read("Data/Inputs/minified.json").Extract())
 d.Encode()
 reader_output = d.Output()
-definition = Definition(reader_output)
-cs = ConstraintSolver(definition.Output(), reader_output, search_rearangement_method=False)
+
+d = Definition(reader_output, True)
+
+cs = ConstraintSolver(d.Output(), reader_output,search_rearangement_method=True, choose_instructors=d.choose_instructors, search_rearangement_criteria="least")
+
 cs.NodeConsistency()
 cs.Backtrack()
 

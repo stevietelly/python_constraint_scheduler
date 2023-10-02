@@ -1,18 +1,26 @@
-from Logic.Structure.Variables import Dynamic, Static
+from Objects.Persons.Instructor import Instructor
+from Objects.Persons.Students import Group
+from Objects.Physical.Rooms import Room
+from Logic.DateTime.DayTime import DayTime
+from Objects.Academic.Units import Unit
 
 
 class Session:
-    def __init__(self, static_variable: Static, dynamic_variable: Dynamic = None) -> None:
-        self.static_variable: Static = static_variable
-        self.dynamic_variable: Dynamic = dynamic_variable
+    def __init__(self, identifier: int, group: Group, unit: Unit, instructor: Instructor, daytime: DayTime, room: Room) -> None:
+        self.identifier =  identifier
+        self.group = group
+        self.unit = unit
+        self.instructor = instructor
+        self.daytime = daytime
+        self.room = room
     
-    def serialize(self)->dict:
+    def serialize(self):
         return {
-            "group": self.static_variable.group.identifier,
-            "unit": self.static_variable.unit.identifier,
-            "time": str(self.dynamic_variable.time),
-            "day": str(self.dynamic_variable.Day),
-            # "instructor": self.dynamic_variable.instructor.identifier,
-            "room": self.dynamic_variable.room.identifier
-            }
-    
+            "identifier": self.identifier,
+            "group": self.group.identifier,
+            "unit": self.unit.identifier,
+            "day": str(self.daytime.day),
+            "time": str(self.daytime.time),
+            "room": self.room.identifier,
+            "instrcutor": self.instructor.identifier
+        }

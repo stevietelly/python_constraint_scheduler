@@ -24,6 +24,11 @@ class Domain:
         totals = [(index, len(value)) for index, value in enumerate(self.values)]
         totals.sort(key=lambda x: x[1])
         return [self.variables[total[0]] for total in totals]
+    
+    def all_variables_descending_values(self):
+        totals = [(index, len(value)) for index, value in enumerate(self.values)]
+        totals.sort(key=lambda x: x[1], reverse=True)
+        return [self.variables[total[0]] for total in totals]
         
     def __str__(self) -> str:
     

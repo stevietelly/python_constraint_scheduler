@@ -43,7 +43,7 @@ class Time:
         return f'Time:->{self.hour}:{self.minuteHandling(self.minute)}{self.state}'
 
     def __str__(self):
-        return f'Time:->{self.hour}:{self.minuteHandling(self.minute)}{self.state}'
+        return f'{self.hour}:{self.minuteHandling(self.minute)}{self.state}'
 
     def __add__(self, other: Duration):
         """

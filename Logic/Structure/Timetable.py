@@ -8,7 +8,7 @@ class Timetable:
     def __init__(self,sessions: List[Session]) -> None:
        
         self.sessions =  sessions
-        self.EvaluateTimetable()
+        # self.EvaluateTimetable()
     
     def EvaluateTimetable(self):
         for session in self.sessions:
