@@ -2,6 +2,7 @@ import json
 import os
 
 from Assets.Functions.Echo import Echo
+from Errors.Exception import FileNotFound
 echo = Echo()
 
 class Read:
@@ -13,7 +14,8 @@ class Read:
     def __init__(self, filename: str, filetype: str = "json"):
         self.fn = filename
         self.filetype = filetype
-        echo.print(f"Reading File '{filename}'", color="magenta")
+        echo.print(f"\nReading File '{filename}'....", color="magenta")
+        if not os.path.isfile(filename): raise FileNotFound(filename)
 
 
     def _handle_txt(self):
@@ -43,5 +45,9 @@ class Read:
 
         return: json
         """
-        return self._handle_json() if self.filetype == "json" else self._handle_txt()
+        try:
+            return self._handle_json() if self.filetype == "json" else self._handle_txt()
+        except BaseException as e:
+            print(BaseException)
+            exit()
        
