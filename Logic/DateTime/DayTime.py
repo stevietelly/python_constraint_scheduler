@@ -34,32 +34,30 @@ class DayTime:
         return False
 
     def __lt__(self, other):
-        print(self, other)
         if not isinstance(other, DayTime): return False
         return self.day < other.day or self.time < other.time
 
-    # def __le__(self, other):
-    #     if isinstance(other, DayTime):
-    #         if self.day != other.day:
-    #             return self.day < other.day
+    def __le__(self, other):
+        if isinstance(other, DayTime):
+            if self.day != other.day:
+                return self.day < other.day
             
-    #         return self.time <= other.time
-    #     return False
+            return self.time <= other.time
+        return False
 
     def __gt__(self, other):
       
         if not isinstance(other, DayTime): return False
         return self.day > other.day or self.time > other.time
             
-        
 
-    # def __ge__(self, other):
-    #     if isinstance(other, DayTime):
-    #         if self.day != other.day:
-    #             return self.day > other.day
-    #         else:
-    #             return self.time >= other.time
-    #     return NotImplemented
+    def __ge__(self, other):
+        if isinstance(other, DayTime):
+            if self.day != other.day:
+                return self.day > other.day
+            else:
+                return self.time >= other.time
+        return NotImplemented
 
     # Define the __hash__() method
     def __hash__(self):
