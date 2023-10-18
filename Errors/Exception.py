@@ -12,7 +12,7 @@ class CustomException:
      
         self.message = message
 
-        Echo().exit(f"{self.__class__}: {self.message}")
+        Echo().exit(f"\n{self.__class__}: {self.message}")
         exit()
 
 class MissingClassList(CustomException):
@@ -66,3 +66,11 @@ class InvalidColor(CustomException):
 class IncompleteAssignment(CustomException):
     def __init__(self,) -> None:
         super().__init__(message="Assignment has not been Completed, please send through an algorithim")
+        
+class FileNotFound(CustomException):
+    def __init__(self, filename) -> None:
+        super().__init__(message=f"File '{filename}' does not exist")
+
+class InvalidInput(CustomException):
+    def __init__(self, input_name:str, accepted_values: list) -> None:
+        super().__init__(message=f"Unnacpted Value for '{input_name}', only accepts {accepted_values}")

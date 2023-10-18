@@ -18,7 +18,7 @@ class ConstraintSolver:
         search_rearangement_method:bool=False, choose_instructors: bool=False
         """
         self.statics =  statics
-        self.reader_output = reader_output
+        self.reader_output = deepcopy(reader_output)
         self.domain = Domain(self.statics, None)
         self.srm = kwargs["search_rearangement_method"] if "search_rearangement_method" in kwargs.keys() else False
         self.choose_instructors = kwargs["choose_instructors"] if "choose_instructors" in kwargs.keys() else False
@@ -65,13 +65,14 @@ class ConstraintSolver:
     def _backtrack(self):
         if self.assignment.is_complete(): return self.assignment
         variable = self.select_next_variable()
+    
         values = self.domain.get_value(variable)
         for value in values:
             if self.assignment.check_if_consistent(variable, value):
                 self.assignment.set_value(variable, value)
                 return self._backtrack()
 
-        raise NoAssignmenetPossible(f"Failed at finding a value for variable '{variable}'")
+        raise NoAssignmenetPossible(f"Unable to find a value for variable '{variable}'")
         
     def select_next_variable(self):
         if not self.srm: return self.assignment.select_unnasigned()

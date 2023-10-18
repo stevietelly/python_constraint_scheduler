@@ -1,7 +1,121 @@
 {
  "clashes": {
-  "rooms": [],
-  "instructors": [],
+  "rooms": [
+   {
+    "identifier": 1,
+    "sessions": [
+     4,
+     14
+    ]
+   },
+   {
+    "identifier": 1,
+    "sessions": [
+     8,
+     18
+    ]
+   },
+   {
+    "identifier": 4,
+    "sessions": [
+     3,
+     13
+    ]
+   },
+   {
+    "identifier": 5,
+    "sessions": [
+     2,
+     12
+    ]
+   },
+   {
+    "identifier": 1,
+    "sessions": [
+     4,
+     14
+    ]
+   },
+   {
+    "identifier": 1,
+    "sessions": [
+     8,
+     18
+    ]
+   },
+   {
+    "identifier": 4,
+    "sessions": [
+     3,
+     13
+    ]
+   },
+   {
+    "identifier": 5,
+    "sessions": [
+     2,
+     12
+    ]
+   }
+  ],
+  "instructors": [
+   {
+    "identifier": 1,
+    "sessions": [
+     4,
+     14
+    ]
+   },
+   {
+    "identifier": 1,
+    "sessions": [
+     8,
+     18
+    ]
+   },
+   {
+    "identifier": 4,
+    "sessions": [
+     3,
+     13
+    ]
+   },
+   {
+    "identifier": 5,
+    "sessions": [
+     2,
+     12
+    ]
+   },
+   {
+    "identifier": 1,
+    "sessions": [
+     4,
+     14
+    ]
+   },
+   {
+    "identifier": 1,
+    "sessions": [
+     8,
+     18
+    ]
+   },
+   {
+    "identifier": 4,
+    "sessions": [
+     3,
+     13
+    ]
+   },
+   {
+    "identifier": 5,
+    "sessions": [
+     2,
+     12
+    ]
+   }
+  ],
   "groups": []
  },
  "sessions": [
@@ -9,47 +123,47 @@
    "identifier": 1,
    "group": 1,
    "unit": 1,
-   "day": "Tuesday",
+   "day": "Monday",
    "time": "8:00am",
    "room": 1,
    "instrcutor": 1,
-   "preference_satisfaction": 100.0,
-   "clash_cost": 100.0,
+   "preference_satisfaction": 100,
+   "clash_cost": 50.1953125,
    "room_capacity": 100
   },
   {
    "identifier": 2,
    "group": 1,
    "unit": 2,
-   "day": "Tuesday",
+   "day": "Monday",
    "time": "9:00am",
    "room": 1,
    "instrcutor": 5,
    "preference_satisfaction": 100,
-   "clash_cost": 100,
+   "clash_cost": 50.1953125,
    "room_capacity": 100
   },
   {
    "identifier": 3,
    "group": 1,
    "unit": 3,
-   "day": "Tuesday",
+   "day": "Monday",
    "time": "10:00am",
    "room": 1,
    "instrcutor": 4,
    "preference_satisfaction": 100,
-   "clash_cost": 100,
+   "clash_cost": 50.1953125,
    "room_capacity": 100
   },
   {
    "identifier": 4,
    "group": 2,
    "unit": 1,
-   "day": "Wednesday",
-   "time": "8:00am",
+   "day": "Monday",
+   "time": "11:00am",
    "room": 1,
    "instrcutor": 1,
-   "preference_satisfaction": 100.0,
+   "preference_satisfaction": 100,
    "clash_cost": 100,
    "room_capacity": 100
   },
@@ -57,11 +171,11 @@
    "identifier": 5,
    "group": 2,
    "unit": 4,
-   "day": "Thursday",
-   "time": "13:00pm",
+   "day": "Monday",
+   "time": "12:00pm",
    "room": 1,
    "instrcutor": 3,
-   "preference_satisfaction": 100.0,
+   "preference_satisfaction": 100,
    "clash_cost": 100,
    "room_capacity": 100
   },
@@ -69,11 +183,11 @@
    "identifier": 6,
    "group": 2,
    "unit": 2,
-   "day": "Wednesday",
-   "time": "9:00am",
+   "day": "Tuesday",
+   "time": "8:00am",
    "room": 1,
    "instrcutor": 5,
-   "preference_satisfaction": 100.0,
+   "preference_satisfaction": 100,
    "clash_cost": 100,
    "room_capacity": 100
   },
@@ -81,11 +195,11 @@
    "identifier": 7,
    "group": 2,
    "unit": 3,
-   "day": "Wednesday",
-   "time": "10:00am",
+   "day": "Tuesday",
+   "time": "9:00am",
    "room": 1,
    "instrcutor": 4,
-   "preference_satisfaction": 100.0,
+   "preference_satisfaction": 100,
    "clash_cost": 100,
    "room_capacity": 100
   },
@@ -93,11 +207,11 @@
    "identifier": 8,
    "group": 3,
    "unit": 1,
-   "day": "Wednesday",
-   "time": "11:00am",
+   "day": "Tuesday",
+   "time": "10:00am",
    "room": 1,
    "instrcutor": 1,
-   "preference_satisfaction": 100.0,
+   "preference_satisfaction": 100,
    "clash_cost": 100,
    "room_capacity": 100
   },
@@ -105,8 +219,8 @@
    "identifier": 9,
    "group": 3,
    "unit": 2,
-   "day": "Wednesday",
-   "time": "12:00pm",
+   "day": "Tuesday",
+   "time": "11:00am",
    "room": 1,
    "instrcutor": 5,
    "preference_satisfaction": 100,
@@ -117,107 +231,107 @@
    "identifier": 10,
    "group": 4,
    "unit": 1,
-   "day": "Wednesday",
-   "time": "13:00pm",
+   "day": "Tuesday",
+   "time": "12:00pm",
    "room": 1,
    "instrcutor": 1,
-   "preference_satisfaction": 100.0,
-   "clash_cost": 100,
+   "preference_satisfaction": 100,
+   "clash_cost": 53.125,
    "room_capacity": 100
   },
   {
    "identifier": 11,
    "group": 4,
    "unit": 5,
-   "day": "Wednesday",
-   "time": "14:00pm",
-   "room": 1,
+   "day": "Monday",
+   "time": "8:00am",
+   "room": 2,
    "instrcutor": 7,
    "preference_satisfaction": 100,
-   "clash_cost": 100,
+   "clash_cost": 53.125,
    "room_capacity": 100
   },
   {
    "identifier": 12,
    "group": 4,
    "unit": 2,
-   "day": "Wednesday",
-   "time": "15:00pm",
-   "room": 1,
+   "day": "Monday",
+   "time": "9:00am",
+   "room": 2,
    "instrcutor": 5,
    "preference_satisfaction": 100,
-   "clash_cost": 100,
+   "clash_cost": 53.125,
    "room_capacity": 100
   },
   {
    "identifier": 13,
    "group": 4,
    "unit": 3,
-   "day": "Wednesday",
-   "time": "16:00pm",
-   "room": 1,
+   "day": "Monday",
+   "time": "10:00am",
+   "room": 2,
    "instrcutor": 4,
    "preference_satisfaction": 100,
-   "clash_cost": 100,
+   "clash_cost": 53.125,
    "room_capacity": 100
   },
   {
    "identifier": 14,
    "group": 5,
    "unit": 1,
-   "day": "Thursday",
-   "time": "8:00am",
-   "room": 1,
+   "day": "Monday",
+   "time": "11:00am",
+   "room": 2,
    "instrcutor": 1,
-   "preference_satisfaction": 100.0,
-   "clash_cost": 100,
+   "preference_satisfaction": 100,
+   "clash_cost": 53.125,
    "room_capacity": 100
   },
   {
    "identifier": 15,
    "group": 5,
    "unit": 2,
-   "day": "Thursday",
-   "time": "9:00am",
-   "room": 1,
+   "day": "Monday",
+   "time": "12:00pm",
+   "room": 2,
    "instrcutor": 5,
    "preference_satisfaction": 100,
-   "clash_cost": 100,
+   "clash_cost": 53.125,
    "room_capacity": 100
   },
   {
    "identifier": 16,
    "group": 5,
    "unit": 3,
-   "day": "Thursday",
-   "time": "10:00am",
-   "room": 1,
+   "day": "Tuesday",
+   "time": "8:00am",
+   "room": 2,
    "instrcutor": 4,
    "preference_satisfaction": 100,
-   "clash_cost": 100,
+   "clash_cost": 53.125,
    "room_capacity": 100
   },
   {
    "identifier": 17,
    "group": 5,
    "unit": 6,
-   "day": "Thursday",
-   "time": "14:00pm",
-   "room": 1,
+   "day": "Tuesday",
+   "time": "9:00am",
+   "room": 2,
    "instrcutor": 6,
-   "preference_satisfaction": 100.0,
-   "clash_cost": 100,
+   "preference_satisfaction": 100,
+   "clash_cost": 53.125,
    "room_capacity": 100
   },
   {
    "identifier": 18,
    "group": 6,
    "unit": 1,
-   "day": "Thursday",
-   "time": "11:00am",
-   "room": 1,
+   "day": "Tuesday",
+   "time": "10:00am",
+   "room": 2,
    "instrcutor": 1,
-   "preference_satisfaction": 100.0,
+   "preference_satisfaction": 100,
    "clash_cost": 100,
    "room_capacity": 100
   },
@@ -225,11 +339,11 @@
    "identifier": 19,
    "group": 6,
    "unit": 6,
-   "day": "Thursday",
-   "time": "15:00pm",
-   "room": 1,
+   "day": "Tuesday",
+   "time": "11:00am",
+   "room": 2,
    "instrcutor": 6,
-   "preference_satisfaction": 100.0,
+   "preference_satisfaction": 100,
    "clash_cost": 100,
    "room_capacity": 100
   },
@@ -237,9 +351,9 @@
    "identifier": 20,
    "group": 6,
    "unit": 3,
-   "day": "Thursday",
+   "day": "Tuesday",
    "time": "12:00pm",
-   "room": 1,
+   "room": 2,
    "instrcutor": 4,
    "preference_satisfaction": 100,
    "clash_cost": 100,

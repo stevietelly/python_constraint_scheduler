@@ -46,11 +46,14 @@ class Assignment:
         return True
     
     def is_consistent(self)->bool:
-        for index, variable in enumerate(self.static_variables):
-            if not self.check_if_consistent(variable, self.values[index]): return False
-                
-   
-        return True
+        last_variable = self.select_last_assigned()
+        value = self.get_value(last_variable)
+        print(value)
+        if self.values.count(value) == 1: return True
+        
+
+
+        return False
     
     def check_if_consistent(self, variable, value):
         if None in value.values(): return False
