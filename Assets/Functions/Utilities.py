@@ -40,8 +40,6 @@ def return_list_of_times(start_time: Time, end_time: Time, duration: int):
     times.append(current_time)
     return times
 
-
-
 def sort_sessions_by_daytime(sessions: List[Session]) -> List[Session]:
     """
     Sorts a list of sessions using the merge sort algorithm based on their DayTime attribute.
@@ -77,4 +75,10 @@ def sort_sessions_by_daytime(sessions: List[Session]) -> List[Session]:
     sorted_sessions.extend(right_sorted[j:])
     return sorted_sessions
 
-    
+def generate_days(start_day: str, num_days: int) -> List[str]:
+        days_in_week: List[str] = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
+        start_day_index: int = days_in_week.index(start_day.lower())
+        days: List[str] = []
+        for i in range(num_days):
+            days.append(days_in_week[(start_day_index + i) % 7])
+        return days   
