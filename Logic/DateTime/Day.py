@@ -26,10 +26,10 @@ class Day:
             return Day(self.days[new_index], self.start_time, self.end_time)
         raise TypeError("unsupported operand type(s) for +: 'Day' and '{}'".format(type(other).__name__))
 
-    def __repr__(self):
-        return str(self)
-
     def __str__(self):
+        return self.name.capitalize()
+
+    def __repr__(self):
         return f'Day:->{self.name.capitalize()}'
     
     def __eq__(self, other: object) -> bool:

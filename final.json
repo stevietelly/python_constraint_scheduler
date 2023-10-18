@@ -1,142 +1,182 @@
 [
  {
+  "identifier": 1,
   "group": 1,
   "unit": 1,
-  "time": "Time:->8:00am",
-  "day": "Day:->Tuesday",
-  "room": 1
+  "day": "Monday",
+  "time": "8:00am",
+  "room": 1,
+  "instrcutor": 2
  },
  {
+  "identifier": 2,
   "group": 1,
   "unit": 2,
-  "time": "Time:->9:00am",
-  "day": "Day:->Tuesday",
-  "room": 1
+  "day": "Monday",
+  "time": "8:00am",
+  "room": 1,
+  "instrcutor": 5
  },
  {
+  "identifier": 3,
   "group": 1,
   "unit": 3,
-  "time": "Time:->10:00am",
-  "day": "Day:->Tuesday",
-  "room": 1
+  "day": "Monday",
+  "time": "8:00am",
+  "room": 1,
+  "instrcutor": 4
  },
  {
+  "identifier": 4,
   "group": 2,
   "unit": 1,
-  "time": "Time:->8:00am",
-  "day": "Day:->Wednesday",
-  "room": 1
+  "day": "Monday",
+  "time": "8:00am",
+  "room": 1,
+  "instrcutor": 1
  },
  {
+  "identifier": 5,
   "group": 2,
   "unit": 4,
-  "time": "Time:->10:00am",
-  "day": "Day:->Wednesday",
-  "room": 1
+  "day": "Wednesday",
+  "time": "8:00am",
+  "room": 1,
+  "instrcutor": 3
  },
  {
+  "identifier": 6,
   "group": 2,
   "unit": 2,
-  "time": "Time:->9:00am",
-  "day": "Day:->Wednesday",
-  "room": 1
+  "day": "Wednesday",
+  "time": "8:00am",
+  "room": 1,
+  "instrcutor": 5
  },
  {
+  "identifier": 7,
   "group": 2,
   "unit": 3,
-  "time": "Time:->11:00am",
-  "day": "Day:->Wednesday",
-  "room": 1
+  "day": "Wednesday",
+  "time": "8:00am",
+  "room": 1,
+  "instrcutor": 4
  },
  {
+  "identifier": 8,
   "group": 3,
   "unit": 1,
-  "time": "Time:->12:00pm",
-  "day": "Day:->Wednesday",
-  "room": 1
+  "day": "Wednesday",
+  "time": "8:00am",
+  "room": 1,
+  "instrcutor": 1
  },
  {
+  "identifier": 9,
   "group": 3,
   "unit": 2,
-  "time": "Time:->13:00pm",
-  "day": "Day:->Wednesday",
-  "room": 1
+  "day": "Wednesday",
+  "time": "9:00am",
+  "room": 1,
+  "instrcutor": 5
  },
  {
+  "identifier": 10,
   "group": 4,
   "unit": 1,
-  "time": "Time:->14:00pm",
-  "day": "Day:->Wednesday",
-  "room": 1
+  "day": "Wednesday",
+  "time": "8:00am",
+  "room": 1,
+  "instrcutor": 2
  },
  {
+  "identifier": 11,
   "group": 4,
   "unit": 5,
-  "time": "Time:->15:00pm",
-  "day": "Day:->Wednesday",
-  "room": 1
+  "day": "Wednesday",
+  "time": "8:00am",
+  "room": 1,
+  "instrcutor": 7
  },
  {
+  "identifier": 12,
   "group": 4,
   "unit": 2,
-  "time": "Time:->8:00am",
-  "day": "Day:->Wednesday",
-  "room": 2
+  "day": "Wednesday",
+  "time": "10:00am",
+  "room": 1,
+  "instrcutor": 5
  },
  {
+  "identifier": 13,
   "group": 4,
   "unit": 3,
-  "time": "Time:->9:00am",
-  "day": "Day:->Wednesday",
-  "room": 2
+  "day": "Wednesday",
+  "time": "9:00am",
+  "room": 1,
+  "instrcutor": 4
  },
  {
+  "identifier": 14,
   "group": 5,
   "unit": 1,
-  "time": "Time:->10:00am",
-  "day": "Day:->Wednesday",
-  "room": 2
+  "day": "Wednesday",
+  "time": "9:00am",
+  "room": 1,
+  "instrcutor": 1
  },
  {
+  "identifier": 15,
   "group": 5,
   "unit": 2,
-  "time": "Time:->11:00am",
-  "day": "Day:->Wednesday",
-  "room": 2
+  "day": "Wednesday",
+  "time": "11:00am",
+  "room": 1,
+  "instrcutor": 5
  },
  {
+  "identifier": 16,
   "group": 5,
   "unit": 3,
-  "time": "Time:->12:00pm",
-  "day": "Day:->Wednesday",
-  "room": 2
+  "day": "Wednesday",
+  "time": "10:00am",
+  "room": 1,
+  "instrcutor": 4
  },
  {
+  "identifier": 17,
   "group": 5,
   "unit": 6,
-  "time": "Time:->13:00pm",
-  "day": "Day:->Wednesday",
-  "room": 2
+  "day": "Wednesday",
+  "time": "8:00am",
+  "room": 1,
+  "instrcutor": 6
  },
  {
+  "identifier": 18,
   "group": 6,
   "unit": 1,
-  "time": "Time:->14:00pm",
-  "day": "Day:->Wednesday",
-  "room": 2
+  "day": "Wednesday",
+  "time": "9:00am",
+  "room": 1,
+  "instrcutor": 2
  },
  {
+  "identifier": 19,
   "group": 6,
   "unit": 6,
-  "time": "Time:->15:00pm",
-  "day": "Day:->Wednesday",
-  "room": 2
+  "day": "Wednesday",
+  "time": "9:00am",
+  "room": 1,
+  "instrcutor": 6
  },
  {
+  "identifier": 20,
   "group": 6,
   "unit": 3,
-  "time": "Time:->8:00am",
-  "day": "Day:->Wednesday",
-  "room": 3
+  "day": "Wednesday",
+  "time": "11:00am",
+  "room": 1,
+  "instrcutor": 4
  }
 ]

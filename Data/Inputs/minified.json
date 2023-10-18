@@ -33,7 +33,7 @@
         {"id": 7, "preferences": null}
     ],
     "units": [
-        {"id": 1, "instructors": [1], "sessions": 1 , "preferences": null},
+        {"id": 1, "instructors": [1, 2], "sessions": 1 , "preferences": null},
         {"id": 2, "instructors": [5], "sessions": 1 , "preferences": null},
         {"id": 3, "instructors": [4], "sessions": 1 , "preferences": null},
         {"id": 4, "instructors": [3], "sessions": 1 , "preferences": "{EXCEPT [DAY:->'Monday'], [TIME:->'9:00am']}"},
