@@ -48,11 +48,7 @@ class Assignment:
     def is_consistent(self)->bool:
         last_variable = self.select_last_assigned()
         value = self.get_value(last_variable)
-        print(value)
         if self.values.count(value) == 1: return True
-        
-
-
         return False
     
     def check_if_consistent(self, variable, value):
