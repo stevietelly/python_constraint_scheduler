@@ -1,93 +1,30 @@
-from typing import List, Self
+from copy import deepcopy
+from typing import List
 from Assets.FileHandling.Read import Read
 from Assets.FileHandling.Write import Write
 from Assets.Functions.Echo import Echo
 from Data.Parser.Reader import DataReader
-from Errors.Exception import IncompleteAssignment, NoAssignmenetPossible, NoValueFound
-from Logic.Structure.Timetable import Timetable
+from Errors.Exception import NoAssignmenetPossible, NoValueFound
+from Logic.Structure.Timetable import PrintTimetable, Timetable
+
+from Logic.Structure.Variables import Static
 from Models.ConstraintSatisfaction.Assignment import Assignment
 from Models.ConstraintSatisfaction.Domain import Domain
+from Models.Evaluation.Fitness import FitnessEvaluation
+from Models.General.Definition import Definition
 from Models.General.Reductions import PreferencesReduction
 from Objects.Internal.Preference.Lookup import LookupInstructor
 from Objects.Internal.Preference.Preference import Only
 
-
-class static:
-    def __init__(self, unit, group) -> None:
-        self.group = group
-        self.unit = unit
-
-        self.instructor = None
-    def __repr__(self):
-        return f'StaticVariable({self.group} taking {self.unit})'
-    def __str__(self):
-        return f'StaticVariable({self.group} taking {self.unit})'
-    
-    def __eq__(self, static):
-        # if not isinstance(static, Self): return False
-        return (self.group.identifier == static.group.identifier) and (self.unit.identifier == static.unit.identifier) and (self.instructor.identifier == static.instructor.identifier)
-    
-    def __ne__(self, static):
-        # if not isinstance(static, Self): return False
-        return (self.group.identifier != static.group.identifier) and (self.unit.identifier != static.unit.identifier) and (self.instructor.identifier != static.instructor.identifier)
-
-
-
-class dynamic:
-    def __init__(self, time, day, room) -> None:
-        self.time = time
-        self.day =  day
-        self.room = room
-
-
-class Definition:
-    def __init__(self, reader_output: dict, choose_instructors: bool=False) -> None:
-        """
-        Problem Definition
-
-        preparing the input
-        """
-        echo = Echo()
-        echo.print("\nProblem Definition", color="magenta")
-        self.reader_output = reader_output
-        self.statics: List[static] =  list()
-        self.choose_instructors = choose_instructors
-        self.StaticSetting()
-    
-    def StaticSetting(self):
-        for group in self.reader_output["groups"]:
-            for unit_identifier in group.units:
-                unit = self.get_unit(unit_identifier)
-                # FIXME: Add an option to pick from a bunch of instructor
-                instructor_identifier = unit.qualified_instructors[0]
-                instructor = self.get_instructor(instructor_identifier)
-                s = static(unit, group)
-                if not self.choose_instructors: s.instructor = instructor
-                self.statics.append(s)
-                    
-    def get_unit(self, identifier: int):
-        for unit in self.reader_output["units"]:
-            if unit.identifier == identifier:
-                return unit
-    
-    def get_instructor(self, identifier: int):
-        for instructor in self.reader_output["instructors"]:
-            if instructor.identifier == identifier:
-                return instructor
-    
-    def Output(self):
-        return self.statics  
-
-    
 echo = Echo()
-
+echo.state = True
 class ConstraintSolver:
-    def __init__(self, statics: List[static], reader_output: dict, **kwargs) -> None:
+    def __init__(self, statics: List[Static], reader_output: dict, **kwargs) -> None:
         """"
         search_rearangement_method:bool=False, choose_instructors: bool=False
         """
         self.statics =  statics
-        self.reader_output = reader_output
+        self.reader_output = deepcopy(reader_output)
         self.domain = Domain(self.statics, None)
         self.srm = kwargs["search_rearangement_method"] if "search_rearangement_method" in kwargs.keys() else False
         self.choose_instructors = kwargs["choose_instructors"] if "choose_instructors" in kwargs.keys() else False
@@ -134,14 +71,14 @@ class ConstraintSolver:
     def _backtrack(self):
         if self.assignment.is_complete(): return self.assignment
         variable = self.select_next_variable()
-        print(variable)
-        values = self.domain.get_value(variable)
-        for value in values:
-            if self.assignment.check_if_consistent(variable, value):
-                self.assignment.set_value(variable, value)
-                return self._backtrack()
-
-        raise NoAssignmenetPossible(f"Failed at finding a value for variable '{variable}'")
+        cont = True
+        while cont:
+            value = self.select_next_value(variable)
+            self.assignment.set_value(variable, value)
+            if self.assignment.is_consistent():
+                cont = False
+               
+        return self._backtrack()   
         
     def select_next_variable(self):
         if not self.srm: return self.assignment.select_unnasigned()
@@ -149,10 +86,9 @@ class ConstraintSolver:
         last_assigned = self.assignment.last_assigned
         if last_assigned is None: return all_variables_filtered[0]
         index = all_variables_filtered.index(last_assigned)
-        print(self.assignment.is_complete())
         return all_variables_filtered[index + 1]
         
-    def select_next_value(self, variable: static):
+    def select_next_value(self, variable: Static):
         echo =  Echo()
         values: list = self.domain.get_value(variable)
 
@@ -160,23 +96,25 @@ class ConstraintSolver:
 
         current_value = self.assignment.get_value(variable)
         index = values.index(current_value)
-        if index + 1 >= len(values): echo.exit("Could not find next value")
+        if index + 1 >= len(values): raise NoAssignmenetPossible(f"Unable to find a value for variable '{variable}'")
         return values[index + 1]
 
+Echo.state = False
 
-echo.state = True
-d = DataReader(Read("Data/Inputs/minified.json").Extract())
+
+d = DataReader(Read("Data/Inputs/unconstrained.json").Extract())
 d.Encode()
 reader_output = d.Output()
 
-d = Definition(reader_output, True)
+d = Definition(reader_output, False)
 
-cs = ConstraintSolver(d.Output(), reader_output,search_rearangement_method=True, choose_instructors=d.choose_instructors, search_rearangement_criteria="least")
+cs = ConstraintSolver(d.Output(), reader_output,search_rearangement_method=False, choose_instructors=d.choose_instructors, search_rearangement_criteria="least")
 
 cs.NodeConsistency()
 cs.Backtrack()
 
 t = Timetable(cs.assignment.Output())
-
-Write("", "final.json", t.Output()).dump()
-print("done.")
+f = FitnessEvaluation(t, reader_output)
+f.Evaluate()
+Write("", "final3.json", f.timetable.Output()).dump()
+PrintTimetable(t, reader_output).Print()

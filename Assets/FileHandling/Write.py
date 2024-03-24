@@ -1,7 +1,9 @@
 import json
 from typing import Union
 
+from Assets.Functions.Echo import Echo
 
+echo = Echo()
 class Write:
     def __init__(self, filepath: str, filename:str, content: Union[dict, list], type_="json"):
         """
@@ -13,6 +15,8 @@ class Write:
         self.cont = content
         self.type_ = type_
         self.fp = filepath
+        echo.print(f"\nWriting to file '{self.fn}'....", color="magenta")
+        
 
     def dump(self):
         if self.type_ == "json":

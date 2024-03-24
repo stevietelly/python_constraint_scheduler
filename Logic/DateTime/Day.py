@@ -50,7 +50,9 @@ class Day:
         if not isinstance(other, Day): return False
         if self == other: return False
         return self.index < other.index
-   
+    def __hash__(self):
+        # Use a tuple of the instance's attributes to compute its hash value
+        return hash((self.name, self.index))
           
     
 

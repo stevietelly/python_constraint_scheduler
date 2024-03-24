@@ -1,0 +1,183 @@
+{
+ "instructors": [
+  {
+   "id": 1,
+   "preferences": null
+  },
+  {
+   "id": 2,
+   "preferences": null
+  },
+  {
+   "id": 3,
+   "preferences": null
+  },
+  {
+   "id": 4,
+   "preferences": null
+  },
+  {
+   "id": 5,
+   "preferences": null
+  }
+ ],
+ "rooms": [
+  {
+   "id": 1,
+   "capacity": 61,
+   "preferences": null
+  },
+  {
+   "id": 2,
+   "capacity": 50,
+   "preferences": null
+  },
+  {
+   "id": 3,
+   "capacity": 63,
+   "preferences": null
+  },
+  {
+   "id": 4,
+   "capacity": 44,
+   "preferences": null
+  }
+ ],
+ "groups": [
+  {
+   "id": 1,
+   "units": [
+    4,
+    1
+   ],
+   "total": 28,
+   "preferences": null
+  },
+  {
+   "id": 2,
+   "units": [
+    4,
+    1,
+    5
+   ],
+   "total": 63,
+   "preferences": null
+  },
+  {
+   "id": 3,
+   "units": [
+    1,
+    1,
+    1
+   ],
+   "total": 36,
+   "preferences": null
+  },
+  {
+   "id": 4,
+   "units": [
+    4,
+    1
+   ],
+   "total": 63,
+   "preferences": null
+  },
+  {
+   "id": 5,
+   "units": [
+    2,
+    2,
+    5
+   ],
+   "total": 48,
+   "preferences": null
+  },
+  {
+   "id": 6,
+   "units": [
+    4,
+    2
+   ],
+   "total": 40,
+   "preferences": null
+  },
+  {
+   "id": 7,
+   "units": [
+    2,
+    4
+   ],
+   "total": 60,
+   "preferences": null
+  },
+  {
+   "id": 8,
+   "units": [
+    5
+   ],
+   "total": 64,
+   "preferences": null
+  },
+  {
+   "id": 9,
+   "units": [
+    5,
+    2
+   ],
+   "total": 55,
+   "preferences": null
+  },
+  {
+   "id": 10,
+   "units": [
+    4,
+    5,
+    4
+   ],
+   "total": 76,
+   "preferences": null
+  }
+ ],
+ "units": [
+  {
+   "id": 1,
+   "preferences": null,
+   "instructors": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": 2,
+   "preferences": null,
+   "instructors": [
+    5
+   ]
+  },
+  {
+   "id": 3,
+   "preferences": null,
+   "instructors": [
+    4,
+    5,
+    5
+   ]
+  },
+  {
+   "id": 4,
+   "preferences": null,
+   "instructors": [
+    3,
+    3
+   ]
+  },
+  {
+   "id": 5,
+   "preferences": null,
+   "instructors": [
+    4,
+    5
+   ]
+  }
+ ]
+}
