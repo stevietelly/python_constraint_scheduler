@@ -1,20 +1,18 @@
 
 from typing import List
 from Assets.Functions.Echo import Echo
-
 from Logic.Structure.Variables import Static
-from Objects.Academic.Units import Unit
-from Objects.Persons.Instructor import Instructor
+
 
 
 
 class Definition:
-    def __init__(self, reader_output: dict, choose_instructors: bool=False) -> None:
-        """
+    """
         Problem Definition
 
         preparing the input
-        """
+    """
+    def __init__(self, reader_output: dict, choose_instructors: bool=False) -> None:
         echo = Echo()
         echo.print("\nProblem Definition", color="magenta")
         self.reader_output = reader_output

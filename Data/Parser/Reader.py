@@ -1,5 +1,4 @@
-from typing import *
-from Assets.FileHandling.Read import Read
+from typing import Dict
 from Assets.Functions.Echo import Echo
 from Assets.Functions.Utilities import return_list_of_days
 from Data.Parser.Preferences import PreferenceParser

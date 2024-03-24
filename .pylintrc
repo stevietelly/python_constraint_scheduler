@@ -1,0 +1,12 @@
+[MASTER]
+disable=
+    C0114, # missing-module-docstring
+    C0103, # snake case conformity
+    C0116, # missing function docstring
+    E0710, # raisng non-exception
+    C0201, # iterating dictionaries
+    C0321, # multiple statemenets
+
+[FORMAT]
+max-line-length=150
+max-args=8

@@ -13,22 +13,35 @@ from Objects.Internal.Preference.Preference import Only
 echo = Echo()
 
 class ConstraintSolver:
+    """"
+    Constraint Solver
+    a timetable solving class using constraint satisfaction
+    
+    `search_rearangement_method: bool=False`,
+    `choose_instructors: bool=False`,
+    `search_rearangement_criteria: str=least [least, highest]`
+    """
     def __init__(self, statics: List[Static], reader_output: dict, **kwargs) -> None:
-        """"
-        search_rearangement_method:bool=False, choose_instructors: bool=False
-        """
         self.statics =  statics
         self.reader_output = deepcopy(reader_output)
         self.domain = Domain(self.statics, None)
         self.srm = kwargs["search_rearangement_method"] if "search_rearangement_method" in kwargs.keys() else False
         self.choose_instructors = kwargs["choose_instructors"] if "choose_instructors" in kwargs.keys() else False
         self.srm_criteria = kwargs["search_rearangement_criteria"] if "search_rearangement_criteria" in kwargs.keys() else "least"
-        self.assignment = Assignment(self.statics, {"room": None, "daytime": None}) if not self.choose_instructors else Assignment(self.statics, {"room": None, "daytime": None, "instructor": None})
+        self.assignment = (
+            Assignment(self.statics, {"room": None, "daytime": None})
+            if not self.choose_instructors
+            else Assignment(
+                self.statics, {"room": None, "daytime": None, "instructor": None}
+            )
+        )
 
         echo.print("\nSolving using Constraint Satisfaction ", color="magenta")
-        if self.srm: echo.print(f"Instantiating Variables with {self.srm_criteria} number of variables.", color="yellow")
-        if self.choose_instructors: echo.print("Instructors to be Picked by Algorithim, Non defined Instructors.", color="yellow")
-    
+        if self.srm:
+            echo.print(f"Instantiating Variables with {self.srm_criteria} number of variables.", color="yellow")
+        if self.choose_instructors:
+            echo.print("Instructors to be Picked by Algorithim, Non defined Instructors.", color="yellow")
+
     def NodeConsistency(self):
         echo.print("Node Consistency", color="green")
         values = {
