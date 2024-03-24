@@ -25,9 +25,13 @@ class Time:
             self.state = 'pm'
             self.time_string = self.time_string.replace("pm", '')
 
-        hours, minutes = self.time_string.split(":")
+        if ":" in self.time_string:
+            hours, minutes = self.time_string.split(":")
 
-        self.hour, self.minute = int(hours), int(minutes)
+            self.hour, self.minute = int(hours), int(minutes)
+        else:
+            self.hour = int(self.time_string)
+        if self.hour > 24 or self.hour == 0: self.hour = 1
 
     def clockSystemHandling(self):
         if self.state == "pm" and self.hour < 12:
