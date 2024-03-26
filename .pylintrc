@@ -6,7 +6,8 @@ disable=
     E0710, # raisng non-exception
     C0201, # iterating dictionaries
     C0321, # multiple statemenets
+    W0702, # bare except
 
 [FORMAT]
-max-line-length=150
+max-line-length=180
 max-args=8
