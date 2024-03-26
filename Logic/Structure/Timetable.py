@@ -13,8 +13,11 @@ from Logic.Structure.Session import Session
 echo = Echo()
 
 class Timetable:
+    """
+    This is a Timetable Class, with several methods to better manage it
+    """
     def __init__(self,sessions: List[Session]) -> None:
-       
+
         self.sessions =  sessions
         self.free_periods: dict = {}.fromkeys(["rooms", "instructors", "groups"], [])
         self.clashes: dict = {}.fromkeys(["rooms", "instructors", "groups"], [])
@@ -71,6 +74,7 @@ class Timetable:
         for session in self.sessions:
             if session.daytime == daytime: result.append(session)
         return result
+    
     def GetSessionsByDayAndTime(self, day: Day, time: Time):
         daytime = DayTime(day, time)
         return self.GetSessionsByDayTime(daytime)
@@ -99,19 +103,18 @@ class Timetable:
             if room_cost is None: room_cost = session.room_capacity_cost
             elif room_cost is not None: room_cost += session.room_capacity_cost
         self.clash_cost = clash_cost
-        
 
-        
-        
-     
 class PrintTimetable:
+    """
+    A class that allows a Timetable to be printed to the terminal
+    """
     def __init__(self, timetable: Timetable, reader_output) -> None:
         self.timetable = timetable
         self.reader_output = reader_output
 
         self.days = reader_output['configuration'].timelines["days"]
         self.times = reader_output['configuration'].timelines["times"]
-    
+
     def add_session(self, day, time):
         result = ""
         count = 0
@@ -122,11 +125,11 @@ class PrintTimetable:
                 result += f"{session.identifier} Group:{session.group.identifier} Unit:{session.unit.identifier} Instructor:{session.instructor.identifier} Room:{session.room.identifier}"
                 count += 1
 
-        return result  # Return empty string if no session found for the given parameters    
+        return result  # Return empty string if no session found for the given parameters
 
     def print_stats(self):
         no_of_clashes = len(self.timetable.clashes["rooms"]) + len(self.timetable.clashes["instructors"]) + len(self.timetable.clashes["groups"])
-        echo.unmute(f"\nFinal Timetable: ", color="cyan")
+        echo.unmute("\nFinal Timetable: ", color="cyan")
         echo.unmute(f"{no_of_clashes} total Clashes")
         echo.unmute(f"{len(self.timetable.clashes['rooms'])} clashes involving rooms")
         echo.unmute(f"{len(self.timetable.clashes['instructors'])} clashes involving instructors")
