@@ -10,6 +10,18 @@ from Objects.Physical.Rooms import Room
 
 
 class FitnessEvaluation:
+    """
+    Fitness Evaluation
+    
+    This class checks how good a solution is in developing a complete
+    timetable with no clashes.
+
+    This is done by evaluating any clashes in groups, rooms and instructors,
+    checking for preference staisfaction and room capacity adherance.
+
+    Eventually, a score is given, contributing to how good the solution is. 
+
+    """
     def __init__(self, timetable, reader_output) -> None:
         self.timetable: Timetable = timetable
         self.readerOutput = reader_output
@@ -18,10 +30,10 @@ class FitnessEvaluation:
         self.groups: List[Group] = self.readerOutput["groups"]
         self.rooms: List[Room] = self.readerOutput["rooms"]
         self.instructors: List[Instructor] = self.readerOutput["instructors"]
-        
+        self.instructors: List[Instructor] = self.readerOutput["instructors"]
+        self.instructors: List[Instructor] = self.readerOutput["instructors"]
         self.Evaluate()
-       
-    
+
     def Evaluate(self):
         self.evaluate_clashes()
         self.evaluate_preferences()
@@ -40,11 +52,9 @@ class FitnessEvaluation:
             calculator.AddSessions(*sessions)
             calculator.Analyse()
             clashes.extend(calculator.clashes)
-        
         self.timetable.clashes[calculator.type_] = clashes
-      
+
     def evaluate_room_clashes(self):
-        
         for room in self.rooms:
             calculator = RoomCalculator(room, self.timelines["daytimes"])
             sessions = self.timetable.GetAllSessionByRoom(room.identifier)
@@ -59,7 +69,7 @@ class FitnessEvaluation:
             calculator.AddSessions(*sessions)
             calculator.Analyse()
             self.timetable.clashes[calculator.type_].extend(calculator.clashes)
-       
+    
     def evaluate_preferences(self):
         for index, session in enumerate(self.timetable.sessions):
             preferences = []
@@ -67,7 +77,7 @@ class FitnessEvaluation:
             if not isinstance(session.group.preferences, All):preferences.append(session.group.preferences)
             if not isinstance(session.room.preferences, All):preferences.append(session.room.preferences)
             if not isinstance(session.unit.preferences, All):preferences.append(session.unit.preferences)
-            if not preferences == []:
+            if not preferences:
                 total = len(preferences)
                 false_count = 0
                 for preference in preferences:
