@@ -1,5 +1,6 @@
 from Assets.FileHandling.Read import Read
 from Assets.FileHandling.Write import Write
+from Assets.Functions.Echo import Echo
 from Data.Generator.Generator import DataGenerator
 from Data.Parser.Reader import DataReader
 from Logic.Structure.Timetable import PrintTimetable, Timetable
@@ -7,6 +8,7 @@ from Models.ConstraintSatisfaction.ConstraintSolver import ConstraintSolver
 from Models.Evaluation.Fitness import FitnessEvaluation
 from Models.General.Definition import Definition
 
+Echo.state = True
 
 data_generator  = DataGenerator()
 
@@ -51,7 +53,6 @@ def constraint_solving(filename:str):
     data_reader.Encode()
     data_reader_output = data_reader.Output()
     define = Definition(data_reader_output)
-    
     constraint_solver = ConstraintSolver(define.Output(), data_reader_output, search_rearangement_method=True)
     constraint_solver.NodeConsistency()
     constraint_solver.Backtrack()
@@ -63,7 +64,7 @@ def constraint_solving(filename:str):
     PrintTimetable(t, data_reader_output).Print()
 
 def main():
-    generate_objects(4, 5, 5, 20, "data.json")
+    generate_objects(4, 5, 5, 20, "Data/Inputs/minified.json")
     constraint_solving("data.json")
 
 if __name__ == "__main__":
