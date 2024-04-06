@@ -6,6 +6,9 @@ disable=
     E0710, # raisng non-exception
     C0201, # iterating dictionaries
     C0321, # multiple statemenets
+    E1121, # too many function args
+    C0206, # using items for dict
+    C0123
 
 [FORMAT]
 max-line-length=150
