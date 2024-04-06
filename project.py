@@ -1,254 +1,134 @@
 import sys
-from typing import List, Dict, Any
 from Assets.FileHandling.Read import Read
 from Assets.FileHandling.Write import Write
 from Assets.Functions.Echo import Echo
-from Data.Parser.Reader import DataReader
-from Data.Validators.Structure import INPUT_FILE_UNITS
-from Data.Validators.Type import FileTypeValidator
-from Data.Validators.Utilities import algorithm_type_validator, confirm_file_path, is_valid_day, is_valid_formart, is_valid_time, return_list_of_days
 from Data.Generator.Generator import DataGenerator
-from Errors.Exception import InvalidInput
+from Data.Parser.Reader import DataReader
 from Logic.Structure.Timetable import PrintTimetable, Timetable
 from Models.ConstraintSatisfaction.ConstraintSolver import ConstraintSolver
 from Models.Evaluation.Fitness import FitnessEvaluation
 from Models.General.Definition import Definition
 
-
-
-#  Input Files holder
-input_files: Dict[str, str]= {"configurations": "Data/Defaults/configuration.json", "students": "Data/Defaults/students.json", "instructors": "Data/Defaults/instructors.json", "rooms": "Data/Defaults/rooms.json", "units": "Data/Defaults/units.json", "courses": "Data/Defaults/courses.json"}
-
-custom_config: Dict[str, Any] = {
-  "name": str,
-  "days":  list,
-  "start-time": str,
-  "end-time": str,
-  "duration-per-session": int,
-  "system": {
-    "limit": int,
-    "saturation": bool,
-    "tries": int,
-    "output": str,
-    "output_folder": str
-  }
-}
-
 echo = Echo()
-def main():
 
+
+
+
+data_generator  = DataGenerator()
+
+# Generate Data class
+def manual_data_generation(input_filename = "data.json"):
+    echo.print("\nManually type in data needed....\n", color="green")
+
+    timetable_name = input("Whats the name of the timetable? ")
+    instructors = input("How many instructors would you like? ")
+    rooms = input("How many rooms would you like? ")
+    groups = input("How many groups would you like? ")
+    units = input("How many units would you like? ")
+
+    generate_objects(instructors, groups, rooms, units, input_filename, timetable_name)
+    return input_filename
+
+def HandlePassedArgs():
+    output_file = "final.json"
+    input_filename = "data.json"
     # for echo
     if "--echo" in sys.argv or "-e" in sys.argv:
         o_index = sys.argv.index("-e") if "-e" in sys.argv else sys.argv.index("--echo")
-        state = sys.argv[o_index+1]
-        if state == "on":
-            Echo.state = True
-        elif not state == "off":
+        state = sys.argv[o_index + 1]
+        if state == "off":
+            Echo.state = False
+        elif not state == "on":
             echo.exit("Invalid Echo status: expected values 'on' or 'off' ")
         sys.argv.pop(o_index)
         sys.argv.pop(o_index)
 
-    # For generating mock data for testing
-    if "-dg" in sys.argv or "--data_generator" in sys.argv:
-        generateData()
-    
+    # Define output file
+    if "-o" in sys.argv or "--output_file" in sys.argv:
+        o_index = (
+            sys.argv.index("-o")
+            if "-o" in sys.argv
+            else sys.argv.index("--output_file")
+        )
+        output_file = sys.argv[o_index + 1]
+        sys.argv.pop(o_index)
+        sys.argv.pop(o_index)
+    # Define input file
+    if "-i" in sys.argv or "--input_file" in sys.argv:
+        i_index = (
+            sys.argv.index("-i") if "-i" in sys.argv else sys.argv.index("--input_file")
+        )
+        input_filename = sys.argv[i_index + 1]
+        sys.argv.pop(o_index)
+        sys.argv.pop(o_index)
+
+    # Manual Data Generation
+    if "-dg" in sys.argv or "--manual-data-generation" in sys.argv:
+        manual_data_generation(input_filename)
+
     if "run" in sys.argv:
-        Run()
-  
-    echo.exit("Invalid inputs: Read README file for input paramaters")
-          
-def write_configuration_manually():
-    """
-    Manually write the configuration
-    """
-    echo.unmute("Timetable Inputs", color="yellow")
-    config_list = {"name": str, "days": int, "start-day": str, "start-time": str, "end-time": str,"duration-per-session": int}
-    for config in config_list.keys():
-        while True:
-            input_str = input(config+": ")
-            try:
-                
-                config_list[config] = input_str
-                if type(config_list[config]) == type(input_str):
-                    break
-                
-            except:
-                echo.exit("Invalid input type", 2)   
-             
+        constraint_solving(input_filename, output_file)
+    sys.exit()
 
-    echo.unmute("Sytem Inputs Inputs", color="yellow")
-    system_inputs = {
-    "limit": int,
-    "saturation": bool,
-    "tries": int,
-    "output": str,
-    "output_folder": str
-    }
+# convert instructions to Objects
+def generate_objects(instructors: int, groups: int, rooms: int, units: int, file_name: str, timetable_name="Testing Timetable"):
+    generate_instructors(instructors)
+    generate_rooms(rooms)
+    generate_students(groups, int(units))
+    generate_units(units, instructors)
+    generate_configuration(timetable_name, 5, "Monday", "8am", "4pm", 1)
+    write_data_file(file_name)
+    return file_name
 
-    for system_input in system_inputs:
-        while True:
-            input_str_sys = input(system_input+": ")
-            try:
-                system_inputs[system_input] = input_str_sys
-                break
-            except:
-                echo.exit("Invalid input type")   
-               
-    
-    print("\nValidating input...........\n")
-    
-    if not is_valid_day(config_list["start-day"]):
-        echo.exit("\nInvalid day -> ", config_list["start-day"])
-       
+def generate_configuration(name: str, num_days: int, start_day: str, start_time:str, end_time:str, duration_per_session: int):
+    data_generator.GenerateConfiguration(name, num_days, start_day, start_time, end_time, duration_per_session)
+    return data_generator.output["configuration"]
 
-    custom_config["days"] = return_list_of_days(config_list["start-day"], config_list["days"])
+def generate_instructors(instructors: int):
+    data_generator.GenerateInstructors(instructors)
+    return data_generator.output["instructors"]
 
-    if not is_valid_time(config_list["start-time"]):
-        echo.exit("\nInvalid Time -> ", config_list["start-time"])
- 
+def generate_rooms(no_of_rooms: int):
+    data_generator.GenerateRooms(no_of_rooms)
+    return data_generator.output["rooms"]
 
-    if not is_valid_time(config_list["end-time"]):
-        echo.exit("\nInvalid Time -> ", config_list["end-time"])
-     
-def Run():
-    input_file: str
-    output_file: str
-    output_type: str
-    srm: bool = False
-    srm_type: str 
-    ci: bool
+def generate_units(no_of_units: int, no_of_instructors: int):
+    data_generator.GenerateUnits(no_of_units, no_of_instructors)
+    return data_generator.output["units"]
 
-    # Define input file
-    if "-i" in sys.argv or "--input_file" in sys.argv:
-        o_index = sys.argv.index("-i") if "-i" in sys.argv else sys.argv.index("--input_file")
-        input_file = sys.argv[o_index+1]
-        sys.argv.pop(o_index)
-        sys.argv.pop(o_index)
-    elif "defaults" in sys.argv:
-        input_file = "Data/Inputs/mini.json"
-    else:
-        echo.exit("please Link in an input file, or run defaults")
+def generate_students(no_of_groups: int, no_of_units: int):
+    data_generator.GenerateGroups(no_of_groups, no_of_units)
+    return data_generator.output["groups"]
 
-    # Define output file
-    if "-o" in sys.argv or "--output_file" in sys.argv:
-        o_index = sys.argv.index("-o") if "-o" in sys.argv else sys.argv.index("--output_file")
-        output_file = sys.argv[o_index+1]
-        sys.argv.pop(o_index)
-        sys.argv.pop(o_index)
-    else:
-        echo.exit("Please Define an Output file")
-    
-     # Output Type for the final output
-    if "-tp" in sys.argv or "--output_type" in sys.argv:
-        o_index = sys.argv.index("-tp") if "-tp" in sys.argv else sys.argv.index("--output_type")
-        output_type = sys.argv[o_index+1]
-        sys.argv.pop(o_index)
-        sys.argv.pop(o_index)
-    else:
-        output_type = "json"
+def write_data_file(filename: str):
+    data_generator.output_file = filename
+    data_generator.write()
 
-    Echo().print("Validating Input File.........")
+def constraint_solving(filename:str, output_filename="final.json"):
+    data = Read(filename).Extract()
+    data_reader = DataReader(data)
+    data_reader.Encode()
+    data_reader_output = data_reader.Output()
+    define = Definition(data_reader_output)
+    constraint_solver = ConstraintSolver(define.Output(), data_reader_output, search_rearangement_method=True)
+    constraint_solver.NodeConsistency()
+    constraint_solver.Backtrack()
 
-    if not is_valid_formart(output_type):
-        echo.exit("invalid output formart: Please Read Info for specified output formarts")
-    
-    data = Read(input_file).Extract()
-    if not FileTypeValidator(data):
-        echo.exit("Invalid Input File")
-    
+    t = Timetable(constraint_solver.assignment.Output())
 
-    if "-srm" in sys.argv :
-        o_index = sys.argv.index("-srm")
-        srm_type = sys.argv[o_index+1]
-        srm = True
-        if srm_type not in ["highest", "least"]: raise InvalidInput("srm", ["least", "highest"])
-    else:
-      
-        srm = False
-        srm_type = None
+    f = FitnessEvaluation(t, data_reader_output)
+    Write("./", output_filename, f.timetable.Output()).dump()
+    PrintTimetable(t, data_reader_output).Print()
 
-    if "-ci" in sys.argv :
-        o_index = sys.argv.index("-ci")
-        ci = True
-    else:
-        ci = False
+def main():
+    Echo.state =  True
+    input_filename = "data.json"
 
-    reader = DataReader(data)
-    reader.Encode()
-    reader_output = reader.Output()
-    
-    d = Definition(reader_output, ci)
-  
-    cs = ConstraintSolver(d.Output(), reader_output, search_rearangement_method=srm, choose_instructors=ci, search_rearangement_criteria=srm_type)
+    if len(sys.argv) > 1: HandlePassedArgs()
 
-    cs.NodeConsistency()
-    cs.Backtrack()
-
-    t = Timetable(cs.assignment.Output())
-
-    f = FitnessEvaluation(t, reader_output)
-    Write("./", "final.json", f.timetable.Output()).dump()
-    PrintTimetable(t, reader_output).Print()
-    exit()
-
-    
-def generateData():
-    echo.unmute("Genarate mock data", color="light_magenta")
-    input_file:str|None = None
-    output_file:str|None = None
-
-    # Define output file
-    if "-o" in sys.argv or "--output_file" in sys.argv:
-        o_index = sys.argv.index("-o") if "-o" in sys.argv else sys.argv.index("--output_file")
-        output_file = sys.argv[o_index+1]
-        sys.argv.pop(o_index)
-        sys.argv.pop(o_index)
-        
-    # Define input file
-    if "-i" in sys.argv or "--input_file" in sys.argv:
-        o_index = sys.argv.index("-i") if "-i" in sys.argv else sys.argv.index("--input_file")
-        input_file = sys.argv[o_index+1]
-        sys.argv.pop(o_index)
-        sys.argv.pop(o_index)
-    while True:
-        if not output_file:
-            output_file = input("Enter name of output file: ")
-        echo.unmute("1. Use a text File\n2. Input Manually")
-        choice = input("Pick one of the above: ")
-
-        generator = DataGenerator(output_file)
-        
-        inputs = None if input_file is None else Read(input_file).Extract()
-        match choice:
-            case '1':
-                echo.print("\nGenerating Data from a text file....\n", color="green")
-                file_ = input("Input Text File path: ")
-                inputs = Read(file_, "txt").Extract()
-                generator.GenerateAllInputData(inputs["instructors"], inputs["groups"], inputs["units"], inputs["rooms"], custom_config)
-                generator.write()
-                
-            case '2':
-                echo.print("\nManually type in data needed....\n", color="green")
-
-                instructors = input("How many instructors would you like? ") if not input_file else int(inputs["instructors"])
-                rooms = input("How many rooms would you like? ") if not input_file else int(inputs["rooms"])
-                groups = input("How many groups would you like? ") if not input_file else int(inputs["groups"])
-                units = input("How many units would you like? ") if not input_file else int(inputs["units"])
-
-        if "-c" in sys.argv or "--configuration" in sys.argv:
-            o_index = sys.argv.index("-c") if "-c" in sys.argv else sys.argv.index("--configuration")
-            config = Read(sys.argv[o_index+1]).Extract()
-            sys.argv.pop(o_index)
-            sys.argv.pop(o_index)
-            generator.GenerateAllInputData(instructors, groups, units, rooms, config)
-            generator.write()
-        else:
-            write_configuration_manually()        
-            generator.GenerateAllInputData(instructors, groups, units, rooms, custom_config)
-            generator.write()
-            
-        sys.exit()
-            
+    echo.unmute("Automatic Handling\n", color="green")
+    f = generate_objects(4, 5, 5, 20, input_filename)
+    constraint_solving(f)
 
 if __name__ == "__main__":
     main()

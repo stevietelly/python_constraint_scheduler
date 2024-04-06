@@ -1,0 +1,110 @@
+<mxfile host="65bd71144e">
+    <diagram id="1dANihVP_XnD50yrZQJN" name="Page-1">
+        <mxGraphModel dx="2715" dy="1165" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="32" value="" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;shadow=0;glass=0;dashed=1;sketch=0;strokeColor=default;fontFamily=Lato;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="60" y="110" width="690" height="850" as="geometry"/>
+                </mxCell>
+                <mxCell id="53" style="edgeStyle=none;html=1;fontFamily=Lato;fontSize=42;" edge="1" parent="1" source="3">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="-330" y="530" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="3" value="&lt;h2&gt;&lt;font face=&quot;Lato&quot;&gt;&lt;u&gt;Reader&lt;/u&gt;&lt;/font&gt;&lt;/h2&gt;&lt;font face=&quot;Lato&quot;&gt;Encoding Individual Objects&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Lato;" vertex="1" parent="1">
+                    <mxGeometry x="-450" y="360" width="240" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="54" style="edgeStyle=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontFamily=Lato;fontSize=42;" edge="1" parent="1" source="4" target="5">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-20" y="573"/>
+                            <mxPoint x="-30" y="287"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="4" value="&lt;h2&gt;&lt;u&gt;Definiton&lt;/u&gt;&lt;/h2&gt;Define a Static Variable" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Lato;" vertex="1" parent="1">
+                    <mxGeometry x="-450" y="538" width="240" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="51" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontFamily=Lato;" edge="1" parent="1" source="5" target="18">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="&lt;h2&gt;&lt;font face=&quot;Lato&quot;&gt;&lt;u&gt;Node Consistency&lt;/u&gt;&lt;/font&gt;&lt;/h2&gt;&lt;font face=&quot;Lato&quot;&gt;Satisfying Unary Constraints&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="129" y="252" width="200" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" value="&lt;h1&gt;&lt;br&gt;&lt;/h1&gt;&lt;div&gt;&lt;h2&gt;&lt;u&gt;Recursive Back Tracking&lt;/u&gt;&lt;/h2&gt;Going Back and Trying New Solutions if present on is inadequate&lt;br&gt;&lt;br&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;shadow=0;glass=0;sketch=0;fontFamily=Lato;" vertex="1" parent="1">
+                    <mxGeometry x="520" y="600" width="220" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="47" value="" style="group" vertex="1" connectable="0" parent="1">
+                    <mxGeometry x="116" y="390" width="374" height="540" as="geometry"/>
+                </mxCell>
+                <mxCell id="16" value="Assignment Complete?" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.decision;whiteSpace=wrap;rounded=1;shadow=0;glass=0;sketch=0;strokeColor=default;fontFamily=Lato;fillColor=none;" vertex="1" parent="47">
+                    <mxGeometry x="51" y="440" width="100" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="18" value="Get Next Variable" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;dashed=0;rounded=1;shadow=0;glass=0;sketch=0;strokeColor=default;fontFamily=Lato;fillColor=none;" vertex="1" parent="47">
+                    <mxGeometry width="222.5" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="37" value="No" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;fontFamily=Lato;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="47" source="16" target="18">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="354" y="490" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="374" y="490"/>
+                            <mxPoint x="364" y="25"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="19" value="Get Next Value for &lt;br&gt;Variable from Domain" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;dashed=0;rounded=1;shadow=0;glass=0;sketch=0;strokeColor=default;fontFamily=Lato;fillColor=none;" vertex="1" parent="47">
+                    <mxGeometry x="2" y="90" width="200" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="39" style="edgeStyle=none;html=1;entryX=0.547;entryY=-0.033;entryDx=0;entryDy=0;entryPerimeter=0;fontFamily=Lato;" edge="1" parent="47" source="18" target="19">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="42" value="yes" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;fontFamily=Lato;" edge="1" parent="47" source="20" target="16">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="20" value="is Consistent?" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.decision;whiteSpace=wrap;rounded=1;shadow=0;glass=0;sketch=0;strokeColor=default;fontFamily=Lato;fillColor=none;" vertex="1" parent="47">
+                    <mxGeometry x="51" y="300" width="100" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="28" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;fontFamily=Lato;" edge="1" parent="47" source="25" target="20">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="25" value="Assign Value to Variable" style="html=1;dashed=0;whitespace=wrap;rounded=1;shadow=0;glass=0;sketch=0;strokeColor=default;fontFamily=Lato;fillColor=none;" vertex="1" parent="47">
+                    <mxGeometry x="4" y="198" width="196.25" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="41" style="edgeStyle=none;html=1;fontFamily=Lato;" edge="1" parent="47" source="19" target="25">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="30" style="edgeStyle=none;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;fontFamily=Lato;" edge="1" parent="47" source="26" target="19">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="290" y="125"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="26" value="Remove Assigned Value &lt;br&gt;from Variable" style="html=1;dashed=0;whitespace=wrap;rounded=1;shadow=0;glass=0;sketch=0;strokeColor=default;fontFamily=Lato;fillColor=none;" vertex="1" parent="47">
+                    <mxGeometry x="222" y="320" width="135" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="27" value="No" style="edgeStyle=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontFamily=Lato;" edge="1" parent="47" source="20" target="26">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="52" value="Constraint Satisfaction with Backtracking" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;shadow=0;glass=0;dashed=1;sketch=0;fontFamily=Lato;fontSize=42;" vertex="1" parent="1">
+                    <mxGeometry x="116" y="140" width="540" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="58" style="edgeStyle=none;html=1;fontFamily=Lato;fontSize=12;" edge="1" parent="1" source="55" target="3">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="55" value="Input File" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;glass=0;sketch=0;strokeColor=default;fontFamily=Lato;fontSize=17;fillColor=none;strokeWidth=2;" vertex="1" parent="1">
+                    <mxGeometry x="-440" y="192" width="210" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="59" style="edgeStyle=none;html=1;fontFamily=Lato;fontSize=12;" edge="1" parent="1" source="16" target="60">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="216.99999999999955" y="1030" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="60" value="&lt;font style=&quot;font-size: 17px;&quot;&gt;Output File&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;glass=0;sketch=0;strokeColor=default;strokeWidth=2;fontFamily=Lato;fontSize=12;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="156.99999999999955" y="1000" width="120" height="60" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
