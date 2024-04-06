@@ -42,6 +42,7 @@ class FitnessEvaluation:
         self.evaluate_clashes()
         self.evaluate_preferences()
         self.evaluate_room_capacity()
+        self.timetable.evaluated = True
 
     def evaluate_clashes(self):
         echo.print("Evaluating Clashes", color="green")

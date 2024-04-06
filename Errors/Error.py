@@ -18,3 +18,6 @@ class MissingValueInPreference(CustomError):
     def __init__(self, object_: str, clause: str, value=None) -> None:
         super().__init__("MissingValueInPreference", message=f"Ignoring Preferences whose values is missing, fixed inside '{object_}' inside '{clause}', {value or 'Unknown'}")
 
+class UnevaluatedTimetable(CustomError):
+    def __init__(self, name: str, message: str) -> None:
+        super().__init__("UnevaluatedTimetable", message="Send Through `FitnessEvaluation` Function")

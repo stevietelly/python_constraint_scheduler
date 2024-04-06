@@ -2,6 +2,7 @@ from typing import List
 
 from prettytable import PrettyTable
 from Assets.Functions.Echo import Echo
+from Errors.Error import UnevaluatedTimetable
 from Logic.DateTime.Day import Day
 from Logic.DateTime.DayTime import DayTime
 from Logic.DateTime.Time import Time
@@ -21,6 +22,7 @@ class Timetable:
         self.sessions =  sessions
         self.free_periods: dict = {}.fromkeys(["rooms", "instructors", "groups"], [])
         self.clashes: dict = {}.fromkeys(["rooms", "instructors", "groups"], [])
+        self.evaluated = False
         self.Statistics()
     
     def GetAllSessionByGroup(self, group_identifier: int):
@@ -111,9 +113,9 @@ class PrintTimetable:
     def __init__(self, timetable: Timetable, reader_output) -> None:
         self.timetable = timetable
         self.reader_output = reader_output
-
         self.days = reader_output['configuration'].timelines["days"]
         self.times = reader_output['configuration'].timelines["times"]
+        if not self.timetable.evaluated: raise UnevaluatedTimetable
 
     def add_session(self, day, time):
         result = ""
