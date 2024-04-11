@@ -9,7 +9,7 @@ class Unit:
     def __init__(self,identifier: int, no_of_sessions: int, qualified_instructors: List[int], preferences: Rule):
         self.identifier = identifier
         self.sessions = no_of_sessions
-        self.qualified_instructors = qualified_instructors
+        self.qualified_instructors: List[int] = qualified_instructors
 
         self.preferences: Rule = preferences
     
