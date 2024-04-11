@@ -6,9 +6,7 @@ class CustomError:
         # Echo.state = True
         echo = Echo()
         
-        echo.unmute(f"\n{name}: {message}", color="magenta")
-       
-        
+        echo.unmute(f"\n{name}: {message}", color="magenta")      
 
 class InvalidPreferenceFixing(CustomError):
     def __init__(self, object_: any, clause: str) -> None:
@@ -19,5 +17,5 @@ class MissingValueInPreference(CustomError):
         super().__init__("MissingValueInPreference", message=f"Ignoring Preferences whose values is missing, fixed inside '{object_}' inside '{clause}', {value or 'Unknown'}")
 
 class UnevaluatedTimetable(CustomError):
-    def __init__(self, name: str, message: str) -> None:
+    def __init__(self) -> None:
         super().__init__("UnevaluatedTimetable", message="Send Through `FitnessEvaluation` Function")
