@@ -3,7 +3,7 @@
     {
         "name": "",
         "meta_data": {"input_version": "0.4.0", "generator_type": "manual","generator_version": null},
-        "days": ["Monday","Tuesday", "Wednesday", "Thursday", "Friday"],
+        "days": ["Monday", "Tuesday", "Wednesday"],
         "priorities": {"room": null, "instructors": null, "units": null, "groups": null},
         "start_time": "8:00am",
         "end_time": "16:00pm",
@@ -33,12 +33,12 @@
         {"id": 7, "preferences": null}
     ],
     "units": [
-        {"id": 1, "instructors": [1, 2], "sessions": 1 , "preferences": null},
+        {"id": 1, "instructors": [1], "sessions": 1 , "preferences": null},
         {"id": 2, "instructors": [5], "sessions": 1 , "preferences": null},
         {"id": 3, "instructors": [4], "sessions": 1 , "preferences": null},
         {"id": 4, "instructors": [3], "sessions": 1 , "preferences": "{EXCEPT [DAY:->'Monday'], [TIME:->'9:00am']}"},
         {"id": 5, "instructors": [7], "sessions": 1 , "preferences": null},
-        {"id": 6, "instructors": [6], "sessions": 1 , "preferences": "{ONLY [ROOM:->1], [ROOM:->2]}"}
+        {"id": 6, "instructors": [6], "sessions": 1 , "preferences": null}
            
     ],
     "rooms": [
