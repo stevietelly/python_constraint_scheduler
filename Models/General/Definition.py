@@ -33,14 +33,17 @@ class Definition:
 
     def StaticSetting(self):
         # Create The Different Static Variables
+        static_identifier = 0
         for group in self.reader_output.groups:
             for unit_identifier in group.units:
                 unit = self.get_unit(unit_identifier)
+                
                 instructor_identifier = unit.qualified_instructors[0]
                 instructor = self.get_instructor(instructor_identifier) if self.choose_instructors else None
-                s = Static(unit, group, instructor)
-                if not self.choose_instructors: s.instructor = instructor
-                self.statics.append(s)
+                for _ in range(unit.lessons):
+                    static_identifier += 1
+                    s = Static(static_identifier, unit, group, instructor)
+                    self.statics.append(s)
 
     def DynamicSetting(self):
         for static in self.statics:

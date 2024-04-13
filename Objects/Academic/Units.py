@@ -6,11 +6,10 @@ class Unit:
     sessions = int
     qualified_instructors = list
 
-    def __init__(self,identifier: int, no_of_sessions: int, qualified_instructors: List[int], preferences: Rule):
+    def __init__(self,identifier: int, no_of_lessons: int, qualified_instructors: List[int], preferences: Rule):
         self.identifier = identifier
-        self.sessions = no_of_sessions
+        self.lessons = no_of_lessons
         self.qualified_instructors: List[int] = qualified_instructors
-
         self.preferences: Rule = preferences
     
     
