@@ -1,218 +1,139 @@
-from typing import Dict, Tuple
 from Errors.Error import InvalidPreferenceFixing
-from Errors.Exception import * 
-from Objects.Internal.Preference.Preference import *
+from Errors.Exception import InvalidPreferenceClause, OverPreferencing
+from Logic.Structure.Variables import Dynamic
+from Objects.Internal.Preference.Preference import After, All, And, Before, Except, Only, Rule
 
 
 class PreferencesReduction:
-    def __init__(self, preferences, values: dict, type_: str|None=None) -> None:
+    """
+    Reduce Values in a domain space that violate a preference
+    """
+    def __init__(self, preferences: Rule, dynamic_variable: Dynamic) -> None:
         self.preferences = preferences
-        self.values = values
-        self.type_ = type_
-       
-    def Reduce(self) -> Tuple[dict, bool]:
+        self.dynamic_variable = dynamic_variable
+    
+    def Reduce(self):
+        self.lookup_maintainance(self.preferences)
 
-        return self.lookup_value_maintainance(self.preferences, self.values)
-        
-    def lookup_value_maintainance(self, rule: Rule, value: Dict[str, any]):
-        new_value = value.copy()
-        change = False
-       
+    def lookup_maintainance(self, rule: Rule):
         if isinstance(rule, And):
-            rule: And =  rule
-            value = value
-            for r in rule.values[0]:
-                value, change = self.lookup_value_maintainance(r, value)
-            return value, change
-
+            values = rule.values[0]
+            for r in values:
+                self.lookup_maintainance(r)
+        elif isinstance(rule, All):
+            pass
         else:
             if isinstance(rule, Except):
-                change = True
-                value = self.except_rule_action(rule, new_value)
-                
+                self.except_rule_action(rule)
             elif isinstance(rule, Only):
-               change =  True
-               value =  self.only_rule_action(rule, new_value)
+                self.only_rule_action(rule)
             elif isinstance(rule, Before):
-                change =  True
-                value =  self.before_rule_action(rule, new_value)
+                self.before_rule_action(rule)
             elif isinstance(rule, After):
-                change =  True
-                value =  self.after_rule_action(rule, new_value)
-            elif isinstance(rule, All): pass
-            else: raise UnknownPreferenceSyntax(str(rule))
-        return new_value, change
-                                 
-    def only_rule_action(self, rule: Rule, values):
-        type_ =  self.type_
+                self.after_rule_action(rule)
+            else: print("done")
+    
+    def except_rule_action(self, rule: Rule):
+        """For except rule clauses"""
         lookups = rule.value
-       
-        value_copies = values.copy()
         for lookup in lookups:
-            self.on_similar_type(lookup.string_type_, type_)
             match lookup.string_type_:
-                case "time": 
-                    singular_values: list = values['daytime']
-                    if not all([s.time != lookup.value for s in singular_values]):
-
-                        values['daytime'] = [daytime for daytime in singular_values if daytime.time == lookup.value]
-                    else:
-
-                        values["daytime"].extend([daytime for daytime in value_copies if daytime.time == lookup.value])
-
-                    if values['daytime'] == []: raise OverPreferencing(lookup, type_, "only")
-                case "daytime":
-                    singular_values: list = values['daytime']
-                    if not all([s != lookup.value for s in singular_values]):
-                    
-                        values['daytime'] = [daytime for daytime in singular_values if daytime == lookup.value]
-                    else:
-                        values['daytime'].extend([daytime for daytime in value_copies if daytime == lookup.value])
-
-                    if values['daytime'] == []: raise OverPreferencing(lookup, type_, "only")
-
+                case "time":
+                    [[self.dynamic_variable.daytimes.remove(t)] if t.time == lookup.value else None  for t in self.dynamic_variable.daytimes]
+                    if self.dynamic_variable.daytimes == []: raise OverPreferencing(lookup, lookup.string_type_, "EXCEPT")
                 case "day":
-                    # FIXME: 
-                    singular_values: list = values['daytime']
-                    if not all([s.day != lookup.value for s in singular_values]):
-                        
-                        values['daytime'] = [daytime for daytime in singular_values if daytime.day == lookup.value]
-                       
-                    else:
-                        values["daytime"].extend([daytime for daytime in value_copies["daytime"] if daytime.day == lookup.value])
-                     
-
-                    if values['daytime'] == []: raise OverPreferencing(lookup, type_, "only")
-
+                    [[self.dynamic_variable.daytimes.remove(d)] if d.day == lookup.value else None  for d in self.dynamic_variable.daytimes]
+                    if self.dynamic_variable.daytimes == []: raise OverPreferencing(lookup, lookup.string_type_, "EXCEPT")
+                case "daytime":
+                    [[self.dynamic_variable.daytimes.remove(dt)] if dt == lookup.value else None  for dt in self.dynamic_variable.daytimes]
+                    if self.dynamic_variable.days == []: raise OverPreferencing(lookup, lookup.string_type_, "EXCEPT")
                 case "room":
-                    singular_values: list = values['room']
-                    if not all([s.identifier != int(lookup.value) for s in singular_values]):
-                        values['room'] = [room for room in singular_values if room.identifier == int(lookup.value)]
-                    else:
-                        values['room'].extend([room for room in value_copies["room"] if room.identifier == int(lookup.value)])
-                    if values['room'] == []: raise OverPreferencing(lookup, type_, "only")
+                    print(lookup)
+                    [[self.dynamic_variable.rooms.remove(r)] if r == lookup.value else None  for r in self.dynamic_variable.rooms]
+                    if self.dynamic_variable.rooms == []: raise OverPreferencing(lookup, lookup.string_type_, "EXCEPT")
                 case "instructor":
-                    singular_values: list = values["instructor"]
-                    if not all([s.identifier != lookup.value for s in singular_values]):
-                        values["instructor"] = [instructor for instructor in singular_values if instructor.identifier == lookup.value ]
-                    else:
-                        values["instructor"].extend([instructor for instructor in value_copies["instructor"] if instructor.identifier == lookup.value ])
-                    if values['instructor'] == []: raise OverPreferencing(lookup, type_, "only")
- 
-    def after_rule_action(self, rule: Rule, values):
-        type_=self.type_
+                    [[self.dynamic_variable.instructors.remove(i)] if i == lookup.value else None  for i in self.dynamic_variable.instructors]
+                    if self.dynamic_variable.instructors == []: raise OverPreferencing(lookup, lookup.string_type_, "EXCEPT")
+                case _:
+                    InvalidPreferenceFixing("Unit", "EXCEPT")
+    
+    def only_rule_action(self, rule: Rule):
+        """For only rule clauses"""
         lookups = rule.value
         for lookup in lookups:
-            self.on_similar_type(lookup.string_type_, type_)
             match lookup.string_type_:
-                case "time": 
-                    times = self.timelines["times"]
-                    relevant = [time for time in times if time > lookup.value]
-                    values["daytime"] = [daytime for daytime in values["daytime"] if daytime.time in relevant]
-                    if values['daytime'] == []: raise OverPreferencing(lookup, type_, "after")
-                case "daytime":
-                #    TODO: Daytime After
-                    daytimes = self.timelines["daytimes"]
-                    relevant = [daytime for daytime in daytimes if daytime > lookup.value]
-                    values["daytime"] = relevant
-
-                    
-                    if values['daytime'] == []: raise OverPreferencing(lookup, type_, "after")
-
+                case "time":
+                    values = []
+                    [values.append(t) if t.time == lookup.value else None for t in self.dynamic_variable.daytimes]
+                    self.dynamic_variable.daytimes = values
+                    if self.dynamic_variable.daytimes == []: raise OverPreferencing(lookup, lookup.string_type_, "ONLY")
                 case "day":
-                #    TODO: Day After
-                    days = self.timelines["days"]
-                    relevant = [day for day in days if day > lookup.value]
-                    values["daytime"] = relevant
-
-        
-                    if values['daytime'] == []: raise OverPreferencing(lookup, type_, "after")
-
+                    values = []
+                    [values.append(d) if d.day == lookup.value else None for d in self.dynamic_variable.daytimes]
+                    self.dynamic_variable.daytimes = values
+                    if self.dynamic_variable.daytimes == []: raise OverPreferencing(lookup, lookup.string_type_, "ONLY")
+                case "daytime":
+                    values = []
+                    [values.append(dt) if dt == lookup.value else None for dt in self.dynamic_variable.daytimes]
+                    self.dynamic_variable.daytimes = values
+                    if self.dynamic_variable.daytimes == []: raise OverPreferencing(lookup, lookup.string_type_, "ONLY")
                 case "room":
-                    raise InvalidPreferenceClause("room", "after")
+                    [[self.dynamic_variable.rooms.remove(r)] if r != lookup.value else None  for r in self.dynamic_variable.rooms]
+                    if self.dynamic_variable.rooms == []: raise OverPreferencing(lookup, lookup.string_type_, "ONLY")
                 case "instructor":
-                    raise InvalidPreferenceClause("instructoe", "before")
-
-    def before_rule_action(self, rule: Rule, values):
-        type_ = self.type_
+                    [[self.dynamic_variable.instructors.remove(i)] if i != lookup.value else None  for i in self.dynamic_variable.instructors]
+                    if self.dynamic_variable.instructors == []: raise OverPreferencing(lookup, lookup.string_type_, "ONLY")
+                case _:
+                    InvalidPreferenceFixing("Unit", "ONLY")
+    
+    def before_rule_action(self, rule: Rule):
+        """For before rule clauses"""
         lookups = rule.value
         for lookup in lookups:
-            self.on_similar_type(lookup.string_type_, type_)
             match lookup.string_type_:
-                case "time": 
-                    times = self.timelines["times"]
-                    relevant = [time for time in times if time > lookup.value]
-                    values["daytime"] = [daytime for daytime in values["daytime"] if daytime.time in relevant]
-                  
-                    if values['daytime'] == []: raise OverPreferencing(lookup, type_, "before")
-                case "daytime":
-                #    TODO: Daytime After
-                    daytimes = self.timelines["daytimes"]
-                    
-                    relevant = [daytime for daytime in daytimes if daytime > lookup.value]
-                    
-                    
-                    values["daytime"] = [daytime for daytime in values["daytime"] if daytime in relevant]
-                    if values['daytime'] == []: raise OverPreferencing(lookup, type_, "before")
-
+                case "time":
+                    values = []
+                    [values.append(t) if t.time <= lookup.value else None  for t in self.dynamic_variable.daytimes]
+                    self.dynamic_variable.daytimes = values
+                    if self.dynamic_variable.daytimes == []: raise OverPreferencing(lookup, lookup.string_type_, "ONLY")
                 case "day":
-                #    TODO: Day After
-                    daytimes = self.timelines["daytimes"]
-                    relevant = [daytime for daytime in daytimes if daytime.day < lookup.value]
-                   
-                    values["daytime"] = relevant
-                    
-
-        
-                    if values['daytime'] == []: raise OverPreferencing(lookup, type_, "before")
-
+                    values = []
+                    [values.append(t) if t.day <= lookup.value else None  for t in self.dynamic_variable.daytimes]
+                    self.dynamic_variable.daytimes = values
+                    if self.dynamic_variable.daytimes == []: raise OverPreferencing(lookup, lookup.string_type_, "ONLY")
+                case "daytime":
+                    values = []
+                    [values.append(t) if t <= lookup.value else None  for t in self.dynamic_variable.daytimes]
+                    self.dynamic_variable.daytimes = values
+                    if self.dynamic_variable.daytimes == []: raise OverPreferencing(lookup, lookup.string_type_, "ONLY")
                 case "room":
                     raise InvalidPreferenceClause("room", "before")
                 case "instructor":
-                    raise InvalidPreferenceClause("instructoe", "before")
-
-    def except_rule_action(self, rule: Rule, values):
-        # For except rule clauses
+                    raise InvalidPreferenceClause("instructor", "before")
+                
+    def after_rule_action(self, rule: Rule):
+        """For after rule clauses"""
         lookups = rule.value
-        type_ = self.type_
         for lookup in lookups:
-            self.on_similar_type(lookup.string_type_, type_)
             match lookup.string_type_:
                 case "time":
-                    singular_values: list = values['daytime']
-                    relevant = [daytime for daytime in singular_values if daytime.time != lookup.value]
-                  
-                   
-                    values['daytime'] = relevant
-                    if values['daytime'] == []: raise OverPreferencing(lookup, type_, "EXCEPT")
-
+                    values = []
+                    [values.append(t) if t.time >= lookup.value else None  for t in self.dynamic_variable.daytimes]
+                    self.dynamic_variable.daytimes = values
+                    if self.dynamic_variable.daytimes == []: raise OverPreferencing(lookup, lookup.string_type_, "ONLY")
                 case "day":
-                    singular_values: list = values['daytime']
-                 
-                    relevant = [daytime for daytime in singular_values if daytime.day == lookup.value]
-                    [singular_values.remove(r) for r in relevant]
-                    values['daytime'] = singular_values
-                    if values['daytime'] == []: raise OverPreferencing(lookup, type_, "EXCEPT")
-
+                    values = []
+                    [values.append(t) if t.day >= lookup.value else None  for t in self.dynamic_variable.daytimes]
+                    self.dynamic_variable.daytimes = values
+                    if self.dynamic_variable.daytimes == []: raise OverPreferencing(lookup, lookup.string_type_, "ONLY")
                 case "daytime":
-                    values['daytime'].remove(lookup.value)
-                    if values['daytime'] == []: raise OverPreferencing(lookup, type_, "EXCEPT")
-
+                    values = []
+                    [values.append(t) if t >= lookup.value else None  for t in self.dynamic_variable.daytimes]
+                    self.dynamic_variable.daytimes = values
+                    if self.dynamic_variable.daytimes == []: raise OverPreferencing(lookup, lookup.string_type_, "ONLY")
                 case "room":
-                    rooms = values["room"]
-                    [values["room"].remove(room) for room in rooms if room.identifier == int(lookup.value)]
-                    if values['room'] == []: raise OverPreferencing(lookup, type_, "EXCEPT")
+                    raise InvalidPreferenceClause("room", "before")
                 case "instructor":
-                    
-                   
-                    values["instructor"] = [i for i in values["instructor"] if i.identifier != lookup.value]
-                    if values['room'] == []: raise OverPreferencing(lookup, type_, "EXCEPT")
-                case _:
-                    
-                    InvalidPreferenceFixing("Unit", "EXCEPT")
-
-    def on_similar_type(self, lookup_str, type_):
-       
-        if lookup_str == type_:
-            raise SimilarObjectToPreference(lookup_str, type_)
-        return False
+                    raise InvalidPreferenceClause("instructor", "before")
+    
+    

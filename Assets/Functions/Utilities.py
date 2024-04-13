@@ -1,10 +1,11 @@
-from typing import *
+from typing import List
 from Logic.DateTime.Day import Day
 from Logic.DateTime.DayTime import DayTime
 from Logic.DateTime.Duration import Duration
 
 from Logic.DateTime.Time import Time
 from Logic.Structure.Session import Session
+
 def return_list_of_days(days: List[str], start_time: Time, end_time: Time)-> List[Day]:
     """
     Return a list of day objects with a listc of days in strings and the start time and end time for a day
@@ -76,9 +77,9 @@ def sort_sessions_by_daytime(sessions: List[Session]) -> List[Session]:
     return sorted_sessions
 
 def generate_days(start_day: str, num_days: int) -> List[str]:
-        days_in_week: List[str] = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
-        start_day_index: int = days_in_week.index(start_day.lower())
-        days: List[str] = []
-        for i in range(num_days):
-            days.append(days_in_week[(start_day_index + i) % 7])
-        return days   
+    days_in_week: List[str] = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
+    start_day_index: int = days_in_week.index(start_day.lower())
+    days: List[str] = []
+    for i in range(num_days):
+        days.append(days_in_week[(start_day_index + i) % 7])
+    return days   

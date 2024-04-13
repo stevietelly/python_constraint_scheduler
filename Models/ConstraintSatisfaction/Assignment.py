@@ -1,102 +1,87 @@
-
-
-from typing import Any, Dict, List
+from typing import List
+from Assets.Functions.Echo import Echo
 from Logic.DateTime.DayTime import DayTime
 from Logic.Structure.Session import Session
-
-
-from Logic.Structure.Variables import Dynamic, Static
+from Logic.Structure.Variables import Value, Static
 from Objects.Persons.Instructor import Instructor
+from Objects.Persons.Students import Group
 from Objects.Physical.Rooms import Room
 
+echo = Echo()
 
 class Assignment:
-    def __init__(self, static_variables: List[Static], values: dict) -> None:
-        self.static_variables = static_variables
-
-        self.values = [values for _ in self.static_variables]
+    """
+    Assignment
+    ___
+    """
+    def __init__(self, static_variables: List[Static], value: Value) -> None:
+        self.static_variables: List[Static] = static_variables
+        self.values: List[Value] = [value for _ in self.static_variables]
         self.last_assigned: Static = None
-
         self.instructors_static = self.static_variables[0].instructor is None
+    
+    def set_value(self,static_variable: Static, value: Value):
+        for index, variable in enumerate(self.static_variables):
+            if variable == static_variable:
+                self.last_assigned = index
+                self.values[index] = value
 
-    def get_value(self, static_variable: Static, index: bool=False):
-        i = self.static_variables.index(static_variable)
-        return self.values[i] if not index else i
-    
-    def set_value(self, static_variable: Static, value: Dict[str, None | Any]):
-        i = self.static_variables.index(static_variable)
-        
-        self.values[i] = value
-        self.last_assigned = static_variable
-    
-    def set_specific_value(self, static_variable, value, type):
-        values = self.get_value(static_variable)
-        values[type] = value
 
-    def get_specific_value(self, static_variable, type):
-        values = self.get_value(static_variable)
-        return values[type]
-    
     def is_complete(self)->bool:
-        for value in self.values:
-        
-            for _, v in value.items():
-     
-                if v is None: return False
+        # Check if all the values are filled
+        return all(value.is_filled() for value in self.values)
+
+    def get_static_by_index(self, index: int) -> Static:
+        return self.static_variables[index]
+   
+    def select_unassigned(self) -> Static:
+        for index, value in enumerate(self.values):
+            if not value.is_filled():
+                return self.static_variables[index]
+        echo.exit("No More Unassigned Variables")
+    
+    def all_unassigned(self) -> List[int]:
+        unnassigned = []
+        for index, value in enumerate(self.values):
+            if not value.is_filled():
+                unnassigned.append(index)
+        return unnassigned
+
+    def check_if_consistent(self, static_variable: Static, value_dict: dict):
+        is_group_consistent = self.check_group_consistency(static_variable.group, value_dict["dt"])
+        is_room_consistent = self.check_room_consistency(value_dict["r"], value_dict["dt"])
+        is_instructor_consistent = True if value_dict["i"] is None else self.check_instructor_consistency(value_dict["i"], value_dict["dt"])
+        consistency_problem = "none"
+        if not is_group_consistent and not is_room_consistent and not is_instructor_consistent:
+            consistency_problem = "all"
+        elif not is_group_consistent:
+            consistency_problem = "group"
+        elif not is_instructor_consistent:
+            consistency_problem = "instructor"
+        elif not is_room_consistent:
+            consistency_problem = "room"
+        return all([is_room_consistent, is_group_consistent, is_instructor_consistent]), consistency_problem
+
+    def check_room_consistency(self, room: Room, daytime: DayTime):
+        return not any(value.room == room and value.day == daytime.day and value.time == daytime.time for value in self.values)
+
+    def check_instructor_consistency(self, instructor: Instructor, daytime: DayTime):
+        return not any(value.instructor == instructor and value.day == daytime.day and value.time == daytime.time for value in self.values)
+
+    def check_group_consistency(self, group: Group, daytime: DayTime):
+        for index, static in enumerate(self.static_variables):
+            value = self.values[index]
+            if static.group == group and value.day and value.time:
+                if daytime.time == value.time and daytime.day == value.day:
+                    return False
         return True
-    
-    def is_consistent(self)->bool:
-        last_variable = self.select_last_assigned()
-        value = self.get_value(last_variable)
-        if self.values.count(value) == 1: return True
-        return False
-    
-    def check_if_consistent(self, variable, value):
-        if None in value.values(): return False
 
-        if self.instructors_static:
-            for vls in self.values:
-                if None in vls.values(): break
-                room_clashes = [v["room"] == vls["room"] and v["daytime"] == vls["daytime"] for v in self.values]
-                instructor_clashes = [v["instructor"] == vls["instructor"] and v["daytime"] == vls["daytime"] for v in self.values]
-                if any(instructor_clashes) or room_clashes: return False
-        return not value in self.values
-
-    def Output (self) -> str:
-        
+    def Output(self):
         sessions = []
         identifier =  0
         for index, variable in enumerate(self.static_variables):
             identifier += 1
             values = self.values[index]
-            instructor = values["instructor"] if self.instructors_static else variable.instructor
-
-           
-            sessions.append(Session(identifier, variable.group, variable.unit, instructor, values["daytime"], values["room"]))
-           
+            instructor = variable.instructor if variable.instructor is not None else values.instructor
+            sessions.append(Session(identifier, variable.group, variable.unit, instructor, DayTime(values.day, values.time), values.room))
         return sessions
-    
-    def __str__(self) -> str:
-        return str(self.Output())
-    
-    def check_if_assigned(self, variable):
-        values: dict = self.get_value(variable)
-        for _, v in values.items():
-            if v is None: return False
-        return True 
-    
-    def select_unnasigned(self):
-        for index, value in enumerate(self.values):
-            for _, v in value.items():
-                if v is None: return self.static_variables[index]
-
-    def select_all_assigned(self)->List[Static]:
-        assigned = []
-        
-        for index, static_variable in enumerate(self.static_variables):
-            if not all([v == None for _, v in self.values[index].items()]): assigned.append(static_variable)
-        return assigned
-    
-    def select_last_assigned(self)->Static:
-        return self.last_assigned
-   
