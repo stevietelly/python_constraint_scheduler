@@ -83,7 +83,7 @@ class DataReader:
 
     def _encode_units(self):
         for unit in self.data["units"]:
-            u = Unit(unit["id"], unit["sessions"], unit["instructors"], PreferenceParser(unit["preferences"]).Parse())
+            u = Unit(unit["id"], unit["lessons"], unit["instructors"], PreferenceParser(unit["preferences"]).Parse())
             self.units.append(u)
 
     def _encode_instructors(self):
