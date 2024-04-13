@@ -34,8 +34,6 @@ class FitnessEvaluation:
         self.groups: List[Group] = self.readerOutput.groups
         self.rooms: List[Room] = self.readerOutput.rooms
         self.instructors: List[Instructor] = self.readerOutput.instructors
-        # self.instructors: List[Instructor] = self.readerOutput["instructors"]
-        # self.instructors: List[Instructor] = self.readerOutput["instructors"]
         self.Evaluate()
 
     def Evaluate(self):
@@ -104,5 +102,4 @@ class FitnessEvaluation:
         for index, session in enumerate(self.timetable.sessions):
             total = session.group.total
             capacity = session.room.capacity
-
             self.timetable.sessions[index].room_capacity_cost = RoomCapacity(total, capacity)

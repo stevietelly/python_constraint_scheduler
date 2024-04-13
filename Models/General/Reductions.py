@@ -1,4 +1,3 @@
-from copy import deepcopy
 from Errors.Error import InvalidPreferenceFixing
 from Errors.Exception import InvalidPreferenceClause, OverPreferencing
 from Logic.Structure.Variables import Dynamic
@@ -40,11 +39,11 @@ class PreferencesReduction:
         for lookup in lookups:
             match lookup.string_type_:
                 case "time":
-                    [[self.dynamic_variable.times.remove(t)] if t == lookup.value else None  for t in self.dynamic_variable.times]
-                    if self.dynamic_variable.times == []: raise OverPreferencing(lookup, lookup.string_type_, "EXCEPT")
+                    [[self.dynamic_variable.daytimes.remove(t)] if t.time == lookup.value else None  for t in self.dynamic_variable.daytimes]
+                    if self.dynamic_variable.daytimes == []: raise OverPreferencing(lookup, lookup.string_type_, "EXCEPT")
                 case "day":
-                    [[self.dynamic_variable.days.remove(d)] if d == lookup.value else None  for d in self.dynamic_variable.days]
-                    if self.dynamic_variable.days == []: raise OverPreferencing(lookup, lookup.string_type_, "EXCEPT")
+                    [[self.dynamic_variable.daytimes.remove(d)] if d.day == lookup.value else None  for d in self.dynamic_variable.daytimes]
+                    if self.dynamic_variable.daytimes == []: raise OverPreferencing(lookup, lookup.string_type_, "EXCEPT")
                 case "daytime":
                     [[self.dynamic_variable.daytimes.remove(dt)] if dt == lookup.value else None  for dt in self.dynamic_variable.daytimes]
                     if self.dynamic_variable.days == []: raise OverPreferencing(lookup, lookup.string_type_, "EXCEPT")
@@ -64,16 +63,21 @@ class PreferencesReduction:
         for lookup in lookups:
             match lookup.string_type_:
                 case "time":
-                    [[self.dynamic_variable.times.remove(t)] if t != lookup.value else None  for t in self.dynamic_variable.times]
-                    if self.dynamic_variable.times == []: raise OverPreferencing(lookup, lookup.string_type_, "ONLY")
+                    values = []
+                    [values.append(t) if t.time == lookup.value else None for t in self.dynamic_variable.daytimes]
+                    self.dynamic_variable.daytimes = values
+                    if self.dynamic_variable.daytimes == []: raise OverPreferencing(lookup, lookup.string_type_, "ONLY")
                 case "day":
-                    [[self.dynamic_variable.days.remove(d)] if d != lookup.value else None  for d in self.dynamic_variable.days]
-                    if self.dynamic_variable.days == []: raise OverPreferencing(lookup, lookup.string_type_, "ONLY")
+                    values = []
+                    [values.append(d) if d.day == lookup.value else None for d in self.dynamic_variable.daytimes]
+                    self.dynamic_variable.daytimes = values
+                    if self.dynamic_variable.daytimes == []: raise OverPreferencing(lookup, lookup.string_type_, "ONLY")
                 case "daytime":
-                    [[self.dynamic_variable.daytimes.remove(dt)] if dt != lookup.value else None  for dt in self.dynamic_variable.daytimes]
-                    if self.dynamic_variable.days == []: raise OverPreferencing(lookup, lookup.string_type_, "ONLY")
+                    values = []
+                    [values.append(dt) if dt == lookup.value else None for dt in self.dynamic_variable.daytimes]
+                    self.dynamic_variable.daytimes = values
+                    if self.dynamic_variable.daytimes == []: raise OverPreferencing(lookup, lookup.string_type_, "ONLY")
                 case "room":
-                    print(lookup)
                     [[self.dynamic_variable.rooms.remove(r)] if r != lookup.value else None  for r in self.dynamic_variable.rooms]
                     if self.dynamic_variable.rooms == []: raise OverPreferencing(lookup, lookup.string_type_, "ONLY")
                 case "instructor":
@@ -89,14 +93,14 @@ class PreferencesReduction:
             match lookup.string_type_:
                 case "time":
                     values = []
-                    [values.append(t) if t <= lookup.value else None  for t in self.dynamic_variable.times]
-                    self.dynamic_variable.times = values
-                    if self.dynamic_variable.times == []: raise OverPreferencing(lookup, lookup.string_type_, "ONLY")
+                    [values.append(t) if t.time <= lookup.value else None  for t in self.dynamic_variable.daytimes]
+                    self.dynamic_variable.daytimes = values
+                    if self.dynamic_variable.daytimes == []: raise OverPreferencing(lookup, lookup.string_type_, "ONLY")
                 case "day":
                     values = []
-                    [values.append(t) if t <= lookup.value else None  for t in self.dynamic_variable.days]
-                    self.dynamic_variable.days = values
-                    if self.dynamic_variable.days == []: raise OverPreferencing(lookup, lookup.string_type_, "ONLY")
+                    [values.append(t) if t.day <= lookup.value else None  for t in self.dynamic_variable.daytimes]
+                    self.dynamic_variable.daytimes = values
+                    if self.dynamic_variable.daytimes == []: raise OverPreferencing(lookup, lookup.string_type_, "ONLY")
                 case "daytime":
                     values = []
                     [values.append(t) if t <= lookup.value else None  for t in self.dynamic_variable.daytimes]
@@ -114,14 +118,14 @@ class PreferencesReduction:
             match lookup.string_type_:
                 case "time":
                     values = []
-                    [values.append(t) if t >= lookup.value else None  for t in self.dynamic_variable.times]
-                    self.dynamic_variable.times = values
-                    if self.dynamic_variable.times == []: raise OverPreferencing(lookup, lookup.string_type_, "ONLY")
+                    [values.append(t) if t.time >= lookup.value else None  for t in self.dynamic_variable.daytimes]
+                    self.dynamic_variable.daytimes = values
+                    if self.dynamic_variable.daytimes == []: raise OverPreferencing(lookup, lookup.string_type_, "ONLY")
                 case "day":
                     values = []
-                    [values.append(t) if t >= lookup.value else None  for t in self.dynamic_variable.days]
-                    self.dynamic_variable.days = values
-                    if self.dynamic_variable.days == []: raise OverPreferencing(lookup, lookup.string_type_, "ONLY")
+                    [values.append(t) if t.day >= lookup.value else None  for t in self.dynamic_variable.daytimes]
+                    self.dynamic_variable.daytimes = values
+                    if self.dynamic_variable.daytimes == []: raise OverPreferencing(lookup, lookup.string_type_, "ONLY")
                 case "daytime":
                     values = []
                     [values.append(t) if t >= lookup.value else None  for t in self.dynamic_variable.daytimes]

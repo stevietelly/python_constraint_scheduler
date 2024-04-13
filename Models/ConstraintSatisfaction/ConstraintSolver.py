@@ -25,7 +25,7 @@ class ConstraintSolver:
     `search_rearangement_criteria` : str
         - The order in which variables will be instantiated
         - deafault is 'least'
-        - only options are 'highest', 'least' anything else will be considered 'least'
+        - only options are 'most', 'least' anything else will be considered 'most'
 
     """
     def __init__(self, statics: List[Static], dynamics: List[Dynamic], **kwargs) -> None:
@@ -48,45 +48,58 @@ class ConstraintSolver:
             PreferencesReduction(preferences, dynamic_variable).Reduce()
             self.domain.set_dynamic_variable(static, dynamic_variable)
             
-            
-            
-
     def Backtrack(self):
         echo.print("Starting Backtracking", color="green")
         self._backtrack()
 
     def _backtrack(self):
         if self.assignment.is_complete(): return self.assignment
-        next_variable: Static = self.assignment.select_unassigned()
-        index = {"i": 0 , "r": 0, "d": 0, "t": 0}
+        next_variable: Static = self.get_next_variable()
+        index = {"i": 0 , "r": 0, "dt": 0}
         while True:
             value, restart = self.domain.get_next_value(next_variable, index)
             if restart:
-                if restart == "time":
-                    index["t"] = 0
-                    index["d"] += 1
-                elif restart == "day":
-                    index["d"] = 0
+                if restart == "daytime":
+                    index["dt"] = 0
                     index["r"] += 1
+                elif restart == "room":
+                    index["r"] = 0
+                    index["dt"] += 1
                 else:
-                    raise NoAssignmenetPossible(f"No more Resources for {next_variable}")
+            
+                    raise NoAssignmenetPossible(f"No more Resources for {next_variable} restart required for {restart}")
             else:
 
-                is_consistent, consistency_problem = self.assignment.check_if_consistent(value)
+                is_consistent, consistency_problem = self.assignment.check_if_consistent(next_variable, value)
                 if not is_consistent:
                     if consistency_problem == "room":
-                        index["t"] += 1
+                        index["dt"] += 1
                     elif consistency_problem == "instructor":
-                        index["t"] += 1
+                        index["dt"] += 1
+                    elif consistency_problem == "all":
+                        index["dt"] += 1
+                        index["r"] += 1
+                    elif consistency_problem == "group":
+                        index["dt"] += 1
                     else:
-                        print("Consistency Problem for", consistency_problem)
-                        break
+                        echo.exit("Consistency Problem for", consistency_problem)
                 else:
                     v = Value()
                     v.instructor = value["i"]
                     v.room = value["r"]
-                    v.day = value["d"]
-                    v.time = value["t"]
+                    v.day = value["dt"].day
+                    v.time = value["dt"].time
                     v.instructor = value["i"]
                     self.assignment.set_value(next_variable, v)
                     return self._backtrack()
+
+    def get_next_variable(self):
+        if not self.srm: return self.assignment.select_unassigned()
+        unnasigned = self.assignment.all_unassigned()
+        lengths = []
+        for index in unnasigned:
+            lengths.append((index, len(self.domain.values[index])))
+        criteria = False if self.srm_criteria == "least" else True
+        lengths.sort(key=lambda item: item[1], reverse=criteria)
+        return self.assignment.get_static_by_index(lengths[0][0])
+ 

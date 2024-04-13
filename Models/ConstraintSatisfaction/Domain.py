@@ -1,12 +1,13 @@
 from typing import List, Tuple
 
+from Assets.Functions.Echo import Echo
 from Logic.DateTime.Day import Day
-from Logic.DateTime.DayTime import DayTime
 from Logic.DateTime.Time import Time
 from Logic.Structure.Variables import Dynamic, Static
 from Objects.Persons.Instructor import Instructor
 from Objects.Physical.Rooms import Room
 
+echo = Echo()
 
 class Domain:
     """
@@ -35,28 +36,26 @@ class Domain:
     def parse_dynamic_variable(self, dynamic_variable: Dynamic, index: dict)->Tuple[dict, str]:
         restart = None
         instructor, i_restart = self.next_instructor(dynamic_variable.instructors, index["i"])
-        day, d_restart = self.next_day(dynamic_variable.days, index["d"])
-        time, t_restart = self.next_time(dynamic_variable.times, index["t"])
+        daytime, dt_restart = self.next_daytime(dynamic_variable.daytimes, index["dt"])
         room, r_restart = self.next_room(dynamic_variable.rooms, index["r"])
 
-        match [r_restart, d_restart, t_restart, i_restart]:
-            case [True, False, False, False]:
+
+        match [r_restart, dt_restart, i_restart]:
+            case [True, False, False]:
                 restart = "room"
-            case [False, True, False, False]:
-                restart = "day"
-            case [False, False, True, False]:
-                restart = "time"
-            case [False, False, False, True]:
+            case [False, True, False]:
+                restart = "daytime"
+            case [False, False, True]:
                 restart = "instructor"
-            case [False, False, False, False]:
+            case [False, False, False]:
                 pass
-            case [True, False, True, False]:
+            case [True, True, False]:
                 # Room with day is exhausted
-                restart = "room and day"
+                restart = "room and daytime"
             case _:
-                print("Unknown", [r_restart, d_restart, t_restart, i_restart])
-                exit()
-        return {"i": instructor, "r": room, "d": day, "t": time}, restart
+                echo.exit("Unknown", [r_restart, dt_restart, i_restart])
+               
+        return {"i": instructor, "r": room, "dt": daytime}, restart
 
     def next_instructor(self, array: List[Instructor], index: int | None):
         restart = False
@@ -81,6 +80,13 @@ class Domain:
         return array[index], restart
     
     def next_time(self, array: List[Time], index: int):
+        restart = False
+        if index >= len(array):
+            restart = True
+            return array[0], restart
+        return array[index], restart
+    
+    def next_daytime(self, array: List[Time], index: int):
         restart = False
         if index >= len(array):
             restart = True

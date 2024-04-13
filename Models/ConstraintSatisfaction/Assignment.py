@@ -1,12 +1,13 @@
-from typing import Any, Dict, List
-from Logic.DateTime.Day import Day
+from typing import List
+from Assets.Functions.Echo import Echo
 from Logic.DateTime.DayTime import DayTime
-from Logic.DateTime.Time import Time
 from Logic.Structure.Session import Session
 from Logic.Structure.Variables import Value, Static
 from Objects.Persons.Instructor import Instructor
+from Objects.Persons.Students import Group
 from Objects.Physical.Rooms import Room
 
+echo = Echo()
 
 class Assignment:
     """
@@ -29,30 +30,52 @@ class Assignment:
     def is_complete(self)->bool:
         # Check if all the values are filled
         return all(value.is_filled() for value in self.values)
+
+    def get_static_by_index(self, index: int) -> Static:
+        return self.static_variables[index]
    
-    def select_unassigned(self):
-        
+    def select_unassigned(self) -> Static:
         for index, value in enumerate(self.values):
             if not value.is_filled():
                 return self.static_variables[index]
-        print("No More Unassigned Variables")
+        echo.exit("No More Unassigned Variables")
     
-    def check_if_consistent(self, value_dict: dict):
-        is_room_consistent = self.check_room_consistency(value_dict["r"], value_dict["d"], value_dict["t"])
-        is_instructor_consistent = True if value_dict["i"] is None else self.check_instructor_consistency(value_dict["i"], value_dict["d"], value_dict["t"])
-        consistency_problem = "both" if not is_room_consistent and not is_instructor_consistent else "none"
-        if not is_instructor_consistent: consistency_problem = "instructor"
-        elif not is_room_consistent: consistency_problem = "room"
-        return all([is_room_consistent, is_instructor_consistent]), consistency_problem
+    def all_unassigned(self) -> List[int]:
+        unnassigned = []
+        for index, value in enumerate(self.values):
+            if not value.is_filled():
+                unnassigned.append(index)
+        return unnassigned
 
+    def check_if_consistent(self, static_variable: Static, value_dict: dict):
+        is_group_consistent = self.check_group_consistency(static_variable.group, value_dict["dt"])
+        is_room_consistent = self.check_room_consistency(value_dict["r"], value_dict["dt"])
+        is_instructor_consistent = True if value_dict["i"] is None else self.check_instructor_consistency(value_dict["i"], value_dict["dt"])
+        consistency_problem = "none"
+        if not is_group_consistent and not is_room_consistent and not is_instructor_consistent:
+            consistency_problem = "all"
+        elif not is_group_consistent:
+            consistency_problem = "group"
+        elif not is_instructor_consistent:
+            consistency_problem = "instructor"
+        elif not is_room_consistent:
+            consistency_problem = "room"
+        return all([is_room_consistent, is_group_consistent, is_instructor_consistent]), consistency_problem
 
-    def check_room_consistency(self, room: Room, day: Day, time: Time):
-        return not any(value.room == room and value.day == day and value.time == time for value in self.values)
-        
-    
-    def check_instructor_consistency(self, instructor: Instructor, day: Day, time: Time):
-        return not any(value.instructor == instructor and value.day == day and value.time == time for value in self.values)
-        
+    def check_room_consistency(self, room: Room, daytime: DayTime):
+        return not any(value.room == room and value.day == daytime.day and value.time == daytime.time for value in self.values)
+
+    def check_instructor_consistency(self, instructor: Instructor, daytime: DayTime):
+        return not any(value.instructor == instructor and value.day == daytime.day and value.time == daytime.time for value in self.values)
+
+    def check_group_consistency(self, group: Group, daytime: DayTime):
+        for index, static in enumerate(self.static_variables):
+            value = self.values[index]
+            if static.group == group and value.day and value.time:
+                if daytime.time == value.time and daytime.day == value.day:
+                    return False
+        return True
+
     def Output(self):
         sessions = []
         identifier =  0
