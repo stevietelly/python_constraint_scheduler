@@ -52,4 +52,4 @@ The Objects include:
 7. **Writer**
    - writes the timetable to a `json` file
 
-![1713015015863](image/README/1713015015863.png "Complete Process Diagram")
+![Process Diagram](Process.png "Process Diagram")
