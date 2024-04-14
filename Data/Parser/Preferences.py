@@ -1,6 +1,14 @@
-from Errors.Exception import InvalidPreferenceSyntax, UnknownPreferenceSyntax
-from Objects.Internal.Preference.Lookup import LookupDay, LookupDayTime, LookupGroup, LookupInstructor, LookupRoom, LookupTime, LookupUnit
-from Objects.Internal.Preference.Preference import After, All, And, Before, Except, Only, Rule
+from typing import Union
+from Errors.Exception import *
+from Logic.DateTime.Day import Day
+from Objects.Internal.Preference.Preference import *
+from Objects.Internal.Preference.Lookup import *
+
+
+
+from Logic.DateTime.Time import Time
+from Logic.DateTime.DayTime import DayTime
+from Objects.Physical.Rooms import Room
 
 class PreferenceParser:
     """
@@ -21,59 +29,67 @@ class PreferenceParser:
             "all": All,
             "only": Only,
             "except": Except,
-            "and": And,
+            "and": And
         }
-        self.rule_strings = ["before", "after", "all", "only", "except", "and"]
+        self.rule_strings = ["before",
+            "after",
+            "all",
+            "only",
+            "except",
+            "and"]
         self.value_mapping = {
-            "time": LookupTime,
-            "room": LookupRoom,
-            "day": LookupDay,
-            "daytime": LookupDayTime,
-            "unit": LookupUnit,
-            "group": LookupGroup,
-            "instructor": LookupInstructor,
-        }
-
+     "time": LookupTime,
+     "room": LookupRoom,
+     "day": LookupDay,
+     "daytime": LookupDayTime,
+     "unit": LookupUnit,
+     "group": LookupGroup,
+     "instructor": LookupInstructor
+ }
+       
         self.string = string
         self.Parse()
-
-    def Parse(self) -> Rule:
+    
+    def Parse(self)-> Rule:
         return self.parser(self.string) if self.string is not None else All()
 
     def parser(self, text: str):
-
+     
         if text.startswith("{"):
             text = text.replace("{", "")
-            if "}" in text:
-                text = text.replace("}", "")
+            if "}" in text: text = text.replace("}", "")
 
-            for key, lookup in self.quality_mapping.items():
-                if key.upper() in text:
-                    text = text.replace(key.upper(), "")
+            for mapping in self.quality_mapping:
+                if mapping.upper() in text:
+                    text = text.replace(mapping.upper(), "")
                     substring = self.parse_substring(text)
-                    return lookup(substring) if not isinstance(substring, list) else lookup(*substring)
+                    return self.quality_mapping[mapping](substring)  if type(substring) is not list else self.quality_mapping[mapping](*substring)
+                elif  all([string.upper() in text for string in self.rule_strings]):
+                    raise UnknownPreferenceSyntax(text)
+                
             raise UnknownPreferenceSyntax(text)
         elif text.startswith("AND") and "{" in text:
             text = text.replace("AND ", "")
             new_strings = text.split("}, ")
             return And(*[self.parser(string) for string in new_strings])
-        elif text == "ALL":
-            return All()
-        elif "{" and "}" not in text:
-            raise InvalidPreferenceSyntax(
-                message="missing `{}`", invalid_preference=text
-            )
-
-    def parse_substring(self, text: str):
+        elif text == "ALL": return All()
+        elif "{" and "}" not in text: raise InvalidPreferenceSyntax(message="missing `{}`", invalid_preference=text)
+        
+    def parse_substring(self, text:str):
         if "," in text:
             strings = text.split(",")
             return [self.parse_substring(string) for string in strings]
         else:
-            for key, lookup in self.value_mapping.items():
-                if "[" + key.upper() + ":->" in text:
-                    text = text.replace("[", "", 1)
-                    text = text.replace("]", "", 1)
-                    text = text.replace(f"{key.upper()}:->", "", 1)
+            for mapping in self.value_mapping:
+                
+                if "["+mapping.upper() +":->" in text:
+                   
+                    text = text.replace("[", '', 1)
+                    text = text.replace("]", '', 1)
+                    text = text.replace(f"{mapping.upper()}:->", "", 1)
                     text = text.replace("'", "", 2)
-                    return lookup(text.strip())
+                    return self.value_mapping[mapping](text.strip())
+                
         raise InvalidPreferenceSyntax(message="missing value", invalid_preference=text)
+                
+              

@@ -7,7 +7,6 @@ disable=
     C0201, # iterating dictionaries
     C0321, # multiple statemenets
     W0702, # bare except
-    W0106, # expression not assigned
 
 [FORMAT]
 max-line-length=180

@@ -1,0 +1,142 @@
+[
+ {
+  "group": 1,
+  "unit": 1,
+  "time": "Time:->10:00am",
+  "day": "Day:->Monday",
+  "room": 3
+ },
+ {
+  "group": 1,
+  "unit": 2,
+  "time": "Time:->8:00am",
+  "day": "Day:->Monday",
+  "room": 3
+ },
+ {
+  "group": 1,
+  "unit": 3,
+  "time": "Time:->8:00am",
+  "day": "Day:->Monday",
+  "room": 3
+ },
+ {
+  "group": 2,
+  "unit": 1,
+  "time": "Time:->10:00am",
+  "day": "Day:->Monday",
+  "room": 1
+ },
+ {
+  "group": 2,
+  "unit": 4,
+  "time": "Time:->8:00am",
+  "day": "Day:->Tuesday",
+  "room": 1
+ },
+ {
+  "group": 2,
+  "unit": 2,
+  "time": "Time:->8:00am",
+  "day": "Day:->Tuesday",
+  "room": 1
+ },
+ {
+  "group": 2,
+  "unit": 3,
+  "time": "Time:->8:00am",
+  "day": "Day:->Wednesday",
+  "room": 1
+ },
+ {
+  "group": 3,
+  "unit": 1,
+  "time": "Time:->10:00am",
+  "day": "Day:->Tuesday",
+  "room": 2
+ },
+ {
+  "group": 3,
+  "unit": 2,
+  "time": "Time:->8:00am",
+  "day": "Day:->Tuesday",
+  "room": 2
+ },
+ {
+  "group": 4,
+  "unit": 1,
+  "time": "Time:->10:00am",
+  "day": "Day:->Tuesday",
+  "room": 1
+ },
+ {
+  "group": 4,
+  "unit": 5,
+  "time": "Time:->8:00am",
+  "day": "Day:->Wednesday",
+  "room": 1
+ },
+ {
+  "group": 4,
+  "unit": 2,
+  "time": "Time:->8:00am",
+  "day": "Day:->Wednesday",
+  "room": 1
+ },
+ {
+  "group": 4,
+  "unit": 3,
+  "time": "Time:->8:00am",
+  "day": "Day:->Wednesday",
+  "room": 1
+ },
+ {
+  "group": 5,
+  "unit": 1,
+  "time": "Time:->10:00am",
+  "day": "Day:->Wednesday",
+  "room": 1
+ },
+ {
+  "group": 5,
+  "unit": 2,
+  "time": "Time:->8:00am",
+  "day": "Day:->Wednesday",
+  "room": 1
+ },
+ {
+  "group": 5,
+  "unit": 3,
+  "time": "Time:->8:00am",
+  "day": "Day:->Wednesday",
+  "room": 1
+ },
+ {
+  "group": 5,
+  "unit": 6,
+  "time": "Time:->8:00am",
+  "day": "Day:->Wednesday",
+  "room": 1
+ },
+ {
+  "group": 6,
+  "unit": 1,
+  "time": "Time:->10:00am",
+  "day": "Day:->Wednesday",
+  "room": 2
+ },
+ {
+  "group": 6,
+  "unit": 6,
+  "time": "Time:->8:00am",
+  "day": "Day:->Wednesday",
+  "room": 2
+ },
+ {
+  "group": 6,
+  "unit": 3,
+  "time": "Time:->8:00am",
+  "day": "Day:->Wednesday",
+  "room": 2
+ }
+]

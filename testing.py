@@ -1,42 +1,24 @@
 from copy import deepcopy
 from typing import List
+from Assets.FileHandling.Read import Read
+from Assets.FileHandling.Write import Write
 from Assets.Functions.Echo import Echo
+from Data.Parser.Reader import DataReader
 from Errors.Exception import NoAssignmenetPossible, NoValueFound
+from Logic.Structure.Timetable import PrintTimetable, Timetable
 
 from Logic.Structure.Variables import Static
 from Models.ConstraintSatisfaction.Assignment import Assignment
 from Models.ConstraintSatisfaction.Domain import Domain
+from Models.Evaluation.Fitness import FitnessEvaluation
+from Models.General.Definition import Definition
 from Models.General.Reductions import PreferencesReduction
 from Objects.Internal.Preference.Lookup import LookupInstructor
 from Objects.Internal.Preference.Preference import Only
 
 echo = Echo()
-
+echo.state = True
 class ConstraintSolver:
-    """
-    A class for the constraint staisfaction algorithim
-
-    ...
-
-    Attributes
-    ---------
-    `statics` : List[Statics]
-        changing variables
-
-    `reader_output` : dict
-        raw inputs 
-
-    `search_rearangement_method`: bool 
-        - Instatinating Variable in a sepecific order
-        - default is False
-
-    `search_rearangement_criteria` : str
-        - The order in which variables will be instantiated
-        - deafault is 'least'
-        - only options are 'highest', 'least' anything else will be considered 'least'
-
-    """
-
     def __init__(self, statics: List[Static], reader_output: dict, **kwargs) -> None:
         """"
         search_rearangement_method:bool=False, choose_instructors: bool=False
@@ -47,17 +29,12 @@ class ConstraintSolver:
         self.srm = kwargs["search_rearangement_method"] if "search_rearangement_method" in kwargs.keys() else False
         self.choose_instructors = kwargs["choose_instructors"] if "choose_instructors" in kwargs.keys() else False
         self.srm_criteria = kwargs["search_rearangement_criteria"] if "search_rearangement_criteria" in kwargs.keys() else "least"
-        self.assignment = (
-            Assignment(self.statics, {"room": None, "daytime": None})
-            if not self.choose_instructors
-            else Assignment(
-                self.statics, {"room": None, "daytime": None, "instructor": None}
-            )
-        )
+        self.assignment = Assignment(self.statics, {"room": None, "daytime": None}) if not self.choose_instructors else Assignment(self.statics, {"room": None, "daytime": None, "instructor": None})
+
         echo.print("\nSolving using Constraint Satisfaction ", color="magenta")
         if self.srm: echo.print(f"Instantiating Variables with {self.srm_criteria} number of variables.", color="yellow")
         if self.choose_instructors: echo.print("Instructors to be Picked by Algorithim, Non defined Instructors.", color="yellow")
-
+    
     def NodeConsistency(self):
         echo.print("Node Consistency", color="green")
         values = {
@@ -94,15 +71,15 @@ class ConstraintSolver:
     def _backtrack(self):
         if self.assignment.is_complete(): return self.assignment
         variable = self.select_next_variable()
-    
-        values = self.domain.get_value(variable)
-        for value in values:
-            if self.assignment.check_if_consistent(variable, value):
-                self.assignment.set_value(variable, value)
-                return self._backtrack()
-
-        raise NoAssignmenetPossible(f"Unable to find a value for variable '{variable}'")
-
+        cont = True
+        while cont:
+            value = self.select_next_value(variable)
+            self.assignment.set_value(variable, value)
+            if self.assignment.is_consistent():
+                cont = False
+               
+        return self._backtrack()   
+        
     def select_next_variable(self):
         if not self.srm: return self.assignment.select_unnasigned()
         all_variables_filtered = self.domain.all_variables_ascending_values() if self.srm_criteria == "least" else self.domain.all_variables_descending_values()
@@ -110,13 +87,34 @@ class ConstraintSolver:
         if last_assigned is None: return all_variables_filtered[0]
         index = all_variables_filtered.index(last_assigned)
         return all_variables_filtered[index + 1]
-
+        
     def select_next_value(self, variable: Static):
+        echo =  Echo()
         values: list = self.domain.get_value(variable)
 
         if not self.assignment.check_if_assigned(variable): return values[0]
 
         current_value = self.assignment.get_value(variable)
         index = values.index(current_value)
-        if index + 1 >= len(values): echo.exit("Could not find next value")
+        if index + 1 >= len(values): raise NoAssignmenetPossible(f"Unable to find a value for variable '{variable}'")
         return values[index + 1]
+
+Echo.state = False
+
+
+d = DataReader(Read("Data/Inputs/unconstrained.json").Extract())
+d.Encode()
+reader_output = d.Output()
+
+d = Definition(reader_output, False)
+
+cs = ConstraintSolver(d.Output(), reader_output,search_rearangement_method=False, choose_instructors=d.choose_instructors, search_rearangement_criteria="least")
+
+cs.NodeConsistency()
+cs.Backtrack()
+
+t = Timetable(cs.assignment.Output())
+f = FitnessEvaluation(t, reader_output)
+f.Evaluate()
+Write("", "final3.json", f.timetable.Output()).dump()
+PrintTimetable(t, reader_output).Print()

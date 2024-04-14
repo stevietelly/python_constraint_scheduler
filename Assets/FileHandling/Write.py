@@ -5,13 +5,12 @@ from Assets.Functions.Echo import Echo
 
 echo = Echo()
 class Write:
-    """
+    def __init__(self, filepath: str, filename:str, content: Union[dict, list], type_="json"):
+        """
         A class to save content to file
         :param filepath: the location of the file
         :str filepath: 
-    """
-    def __init__(self, filepath: str, filename:str, content: Union[dict, list], type_="json"):
-        
+        """
         self.fn = filename
         self.cont = content
         self.type_ = type_

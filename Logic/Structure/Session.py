@@ -7,9 +7,6 @@ from Objects.Academic.Units import Unit
 
 
 class Session:
-    """
-    Represents a complete unit of a timetable
-    """
     def __init__(self, identifier: int, group: Group, unit: Unit, instructor: Instructor, daytime: DayTime, room: Room) -> None:
         self.identifier =  identifier
         self.group = group
@@ -46,8 +43,7 @@ class Session:
         if self.clash_cost is None:
             self.clash_cost = clash_cost
         else:
-            self.clash_cost += clash_cost
-            
+            self.clash_cost + clash_cost
     def __repr__(self) -> str:
         return str(self)
     def __str__(self) -> str:

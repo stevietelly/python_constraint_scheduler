@@ -26,7 +26,7 @@ The below are conjuctions that supplement the above rules
 
 > - **And** - used to join two rules that are to be satisfied together
 
-> - **Or** - used to join two rules that one can be satisfied instead of the other (depreceated)
+> - **Or** - used to join two rules that one can be satisfied instead of the other
 
 ## Preference Syntaxing
 
@@ -41,7 +41,7 @@ Example:
 |Explanation|Prefrence String|
 | ---- | ---- |
 |Before 4:00pm| `{BEFORE [TIME:->'4:00PM']}`|
-|Before monday and after WEDNESDAY| `AND {BEFORE [DAY:->'Monday']}, {AFTER [DAY:->'Wednesday']}`|
+|Before monday and after WEDNESDAY| `AND {BEFORE [DAY:->'Monday']},  {AFTER [DAY:->'WEDNESAY']}`|
 |Only at 2:00pm, 3:00pm and 8:00am and only unit 1|`AND {ONLY [TIME:->'2:00pm'], [TIME:->'3:00PM']}, {ONLY [TIME:->'8:00am']}, {EXCEPT [UNIT:->'1']}`|
 |All rooms except room A15|`{EXCEPT [ROOM:->'A15']}`|
 |Only rooms A15 and A20|`{ONLY [ROOM:->'A15'], [ROOM:'A20']}`|

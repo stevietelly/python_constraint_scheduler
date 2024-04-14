@@ -1,6 +1,5 @@
 from typing import List
 from Assets.Functions.Echo import Echo
-from Data.Parser.Reader import ReaderOutput
 from Logic.Statistics.Calculators import GroupCalculator, InstructorCalculator, RoomCalculator
 from Logic.Statistics.Costs.Cost import PreferenceSatisfacionCost, RoomCapacity
 from Logic.Structure.Timetable import Timetable
@@ -26,14 +25,16 @@ class FitnessEvaluation:
     NB: `Automatically Evaluates, no need to call Evaluate() method`
 
     """
-    def __init__(self, timetable, reader_output: ReaderOutput) -> None:
+    def __init__(self, timetable, reader_output) -> None:
         self.timetable: Timetable = timetable
         self.readerOutput = reader_output
 
-        self.timelines = reader_output.configuration.timelines
-        self.groups: List[Group] = self.readerOutput.groups
-        self.rooms: List[Room] = self.readerOutput.rooms
-        self.instructors: List[Instructor] = self.readerOutput.instructors
+        self.timelines = reader_output["configuration"].timelines
+        self.groups: List[Group] = self.readerOutput["groups"]
+        self.rooms: List[Room] = self.readerOutput["rooms"]
+        self.instructors: List[Instructor] = self.readerOutput["instructors"]
+        self.instructors: List[Instructor] = self.readerOutput["instructors"]
+        self.instructors: List[Instructor] = self.readerOutput["instructors"]
         self.Evaluate()
 
     def Evaluate(self):
@@ -41,7 +42,6 @@ class FitnessEvaluation:
         self.evaluate_clashes()
         self.evaluate_preferences()
         self.evaluate_room_capacity()
-        self.timetable.evaluated = True
 
     def evaluate_clashes(self):
         echo.print("Evaluating Clashes", color="green")
@@ -102,4 +102,5 @@ class FitnessEvaluation:
         for index, session in enumerate(self.timetable.sessions):
             total = session.group.total
             capacity = session.room.capacity
+
             self.timetable.sessions[index].room_capacity_cost = RoomCapacity(total, capacity)

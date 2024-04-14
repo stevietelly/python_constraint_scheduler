@@ -29,13 +29,7 @@ class DataGenerator:
         result = []
         for i in range(int(total_units)):
             instructors = [i+1 for i in range(int(total_instructors))]
-            result.append(
-                {
-                "id": i+1,
-                "preferences": self.generateRandomPrefrence(),
-                "lessons": random.randint(1, 3), 
-                "instructors": random.choices(instructors, k=random.randint(1, 3))
-                })
+            result.append({"id": i+1, "preferences": self.generateRandomPrefrence(),"sessions": random.randint(1, 3), "instructors": random.choices(instructors, k=random.randint(1, 3))})
         self.output["units"] = result
 
     def GenerateRooms(self, total):

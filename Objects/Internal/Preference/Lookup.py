@@ -47,7 +47,7 @@ class LookupTime(Lookup):
         super().__init__(string_type_="time",  value=timestring)
         try:
             self.value=Time(timestring)
-        except Exception:
+        except:
             raise InvalidTime(self.value)
         
 class LookupRoom(Lookup):
@@ -55,7 +55,7 @@ class LookupRoom(Lookup):
     The lookup for room
     """
     def __init__(self, identifier: str) -> None:
-        super().__init__(string_type_="room", value=int(identifier))     
+        super().__init__(string_type_="room", value=str(identifier))     
 
 class LookupDayTime(Lookup):
     """
