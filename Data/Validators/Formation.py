@@ -11,7 +11,6 @@ class DataValidator:
         self.data_entry = data_entry
     
     def ValidateList(self)->bool:
-
         for datum in self.data_entry:  
             if not datum in self.data_structure:
                 return False

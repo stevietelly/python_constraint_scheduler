@@ -44,6 +44,14 @@ class ConstraintSolver:
         self.srm = kwargs["search_rearangement_method"] if "search_rearangement_method" in kwargs.keys() else False
         self.choose_instructors = kwargs["choose_instructors"] if "choose_instructors" in kwargs.keys() else False
         self.srm_criteria = kwargs["search_rearangement_criteria"] if "search_rearangement_criteria" in kwargs.keys() else "least"
+
+        self.assignment = (
+            Assignment(self.statics, {"room": None, "daytime": None})
+            if not self.choose_instructors
+            else Assignment(
+                self.statics, {"room": None, "daytime": None, "instructor": None}
+            )
+        )
         self.assignment = Assignment(self.statics, {"room": None, "daytime": None}) if not self.choose_instructors else Assignment(self.statics, {"room": None, "daytime": None, "instructor": None})
         echo.print("\nSolving using Constraint Satisfaction ", color="magenta")
         if self.srm: echo.print(f"Instantiating Variables with {self.srm_criteria} number of variables.", color="yellow")
@@ -92,7 +100,7 @@ class ConstraintSolver:
                 return self._backtrack()
 
         raise NoAssignmenetPossible(f"Unable to find a value for variable '{variable}'")
-        
+
     def select_next_variable(self):
         if not self.srm: return self.assignment.select_unnasigned()
         all_variables_filtered = self.domain.all_variables_ascending_values() if self.srm_criteria == "least" else self.domain.all_variables_descending_values()
@@ -100,9 +108,8 @@ class ConstraintSolver:
         if last_assigned is None: return all_variables_filtered[0]
         index = all_variables_filtered.index(last_assigned)
         return all_variables_filtered[index + 1]
-        
+
     def select_next_value(self, variable: Static):
-        echo =  Echo()
         values: list = self.domain.get_value(variable)
 
         if not self.assignment.check_if_assigned(variable): return values[0]
@@ -111,4 +118,3 @@ class ConstraintSolver:
         index = values.index(current_value)
         if index + 1 >= len(values): echo.exit("Could not find next value")
         return values[index + 1]
-

@@ -59,8 +59,8 @@ def HandlePassedArgs():
             sys.argv.index("-i") if "-i" in sys.argv else sys.argv.index("--input_file")
         )
         input_filename = sys.argv[i_index + 1]
-        sys.argv.pop(o_index)
-        sys.argv.pop(o_index)
+        sys.argv.pop(i_index)
+        sys.argv.pop(i_index)
 
     # Manual Data Generation
     if "-dg" in sys.argv or "--manual-data-generation" in sys.argv:
