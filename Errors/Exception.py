@@ -49,7 +49,7 @@ class NoValueFound(CustomException):
 
 class NoAssignmenetPossible(CustomException):
     def __init__(self, clue) -> None:
-        super().__init__(message=f"No assignment is possible, Check Temporal Values, {clue}", string="NoAssignmentPossible")
+        super().__init__(message=f"No assignment is possible, Add Temporal Values or more Rooms , {clue}", string="NoAssignmentPossible")
 
 class IncompatibleVersion(CustomException):
     def __init__(self, allowed_minimum_version: str, current_version, module_name) -> None:

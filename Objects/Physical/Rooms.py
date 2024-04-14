@@ -44,4 +44,4 @@ class Room:
             return True
         return False
     def __hash__(self) -> int:
-        return hash((self.name, self.capacity))
+        return hash((self.identifier, self.capacity))

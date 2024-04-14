@@ -33,12 +33,12 @@
         {"id": 7, "preferences": null}
     ],
     "units": [
-        {"id": 1, "instructors": [1, 2], "sessions": 1 , "preferences": null},
-        {"id": 2, "instructors": [5], "sessions": 1 , "preferences": null},
-        {"id": 3, "instructors": [4], "sessions": 1 , "preferences": null},
-        {"id": 4, "instructors": [3], "sessions": 1 , "preferences": "{EXCEPT [DAY:->'Monday'], [TIME:->'9:00am']}"},
-        {"id": 5, "instructors": [7], "sessions": 1 , "preferences": null},
-        {"id": 6, "instructors": [6], "sessions": 1 , "preferences": "{ONLY [ROOM:->1], [ROOM:->2]}"}
+        {"id": 1, "instructors": [1], "lessons": 1 , "preferences": null},
+        {"id": 2, "instructors": [5], "lessons": 1 , "preferences": null},
+        {"id": 3, "instructors": [4], "lessons": 1 , "preferences": null},
+        {"id": 4, "instructors": [3], "lessons": 1 , "preferences": "{EXCEPT [DAY:->'Monday'], [TIME:->'9:00am']}"},
+        {"id": 5, "instructors": [7], "lessons": 1 , "preferences": null},
+        {"id": 6, "instructors": [6], "lessons": 1 , "preferences": "{ONLY [ROOM:->1], [ROOM:->2]}"}
            
     ],
     "rooms": [
