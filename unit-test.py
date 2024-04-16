@@ -3,7 +3,7 @@ import os
 from types import NoneType
 from typing import List
 from Data.Validators.Formation import DataValidator
-from cli import generate_instructors, generate_rooms, generate_students, generate_units, write_data_file
+from project import generate_instructors, generate_rooms, generate_students, generate_units, write_data_file
 
 
 def test_generate_instructors():

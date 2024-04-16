@@ -162,15 +162,17 @@ class PrintTimetable:
         )
         echo.unmute("\nFinal Timetable: ", color="cyan")
         echo.unmute(f"{no_of_clashes} total Clashes")
-        echo.unmute(f"{len(self.timetable.clashes['rooms'])} clashes involving rooms")
+        echo.unmute(f"{len(self.timetable.clashes['rooms'])} clashes involving rooms", end=", ", color="green" if len(self.timetable.clashes['rooms']) == 0 else "red")
         echo.unmute(
-            f"{len(self.timetable.clashes['instructors'])} clashes involving instructors"
+            f"{len(self.timetable.clashes['instructors'])} clashes involving instructors",
+            end=", ",
+            color="green" if len(self.timetable.clashes['rooms']) == 0 else "red"
         )
-        echo.unmute(f"{len(self.timetable.clashes['groups'])} clashes involving groups")
+        echo.unmute(f"{len(self.timetable.clashes['groups'])} clashes involving groups", color="green" if len(self.timetable.clashes['rooms']) == 0 else "red")
 
     def Print(self):
         self.print_stats()
-        rows = ["Time"]
+        rows = ["Time / Day"]
         rows.extend([str(d) for d in self.days])
 
         # Initialize a table with column names

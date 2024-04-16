@@ -48,6 +48,6 @@ class Read:
         try:
             return self._handle_json() if self.filetype == "json" else self._handle_txt()
         except BaseException as e:
-            print(BaseException)
+            print(e)
             exit()
        

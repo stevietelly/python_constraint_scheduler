@@ -1,6 +1,6 @@
 import json
 from typing import Union
-
+import os
 from Assets.Functions.Echo import Echo
 
 echo = Echo()
@@ -11,7 +11,6 @@ class Write:
         :str filepath: 
     """
     def __init__(self, filepath: str, filename:str, content: Union[dict, list], type_="json"):
-        
         self.fn = filename
         self.cont = content
         self.type_ = type_
@@ -25,11 +24,11 @@ class Write:
         elif self.type_ == "html":
             self.dumpHTML()
 
-    def dumpJSON(self):
-        
+    def dumpJSON(self):   
         d = json.dumps(self.cont, indent=1)
-        with open(self.fp + self.fn, 'w') as f:
-            f.write(d)
+        
+        with open(os.path.join(self.fp , self.fn), 'w', encoding='utf-8') as f:
+            f.write(d),
 
     def dumpHTML(self):
         # create stylesheet

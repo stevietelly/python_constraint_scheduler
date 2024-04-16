@@ -1,7 +1,9 @@
 import random
 from Assets.FileHandling.Write import Write
+from Assets.Functions.Echo import Echo
 from Assets.Functions.Utilities import generate_days
 
+echo = Echo()
 
 class DataGenerator:
     """
@@ -89,6 +91,7 @@ class DataGenerator:
 
     def GenerateAllInputData(self, instructors:int, groups:int, rooms:int, units:int, config: None|dict =None):
 
+        echo.print("Generating Sample input data", color="magenta")
         if config is None:self.GenerateConfiguration("", 5, "Monday", "8am", "4pm", 1) # default configuration settings
         else: self.output["configuration"] = config
         self.GenerateInstructors(instructors)
