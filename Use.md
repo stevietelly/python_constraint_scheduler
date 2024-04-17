@@ -4,62 +4,36 @@
 
 for the simplest fucntional use i have implemented a Cli
 
-
 The project has two modes
 
     1. Data Generation Mode
     2. Timetable Generator mode
-  
 
-### Data Generation Mode
+## Terminal Commands
 
-This is used to generate mockup data for the purpose of testing the working of
-the program.
-We are able to test if the program works with a predefined set of data that we
-can customise based on what we are testing.
-Basically checking for logical errors.
+Running `python project.py` will run the deafult setting, which generates a data.json file and send it
 
-### Timetable Generator Mode
-
-This is the functional part of the entire project. It implements processes and
-procedures towards producing an optimal timetable based on the inputs given.
-
-
-
-## Command line Interface
-
-The cli uses flags to set and input commands, at the current version alot
-of `json` attributes are in use, with use of `arrays`, `dictionaries` and
-`lists` to represent data, except in notable special cases and future
-versions
-
-All the modes have inbuilt flags and dont intefere withe each other but can be
+All the modes have inbuilt flags and dont intefere with each other but can be
 optionally used for similar operations.
 
-| Long Version         | Short Version | Use                                                                                                                               | Accompanied by                                                     |
-| :------------------- | :------------ | :-------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------- |
-| `--output_type`    | `-tp`       | Used to specify the type of formart the output file should be in. check*`info.md`* for supported output types                   | *`filename`*                                                   |
-| `--output_file`    | `-o`        | Specifying where the result will be written                                                                                       | *`filename`*                                                   |
-| `--data_generator` | `-dg`       | For enetering data generator mode. this accompanied with other flags                                                              | *`None`*                                                       |
-| `--input_file`     | `-i`        | Specifying the input file for specifying data generation or for data inputs                                                       | *`filename`*                                                   |
-| `defaults`         |               | Load in default values                                                                                                            | *`None`*                                                       |
-| `--configuration`  | `-c`        | Specify configuration file Ussually a json file, if not defined then a prompt to create one on the command line will be initiated | *`filename`*                                                   |
-| `--write_config`   | `-wc`       | This will initite a prompt to manually write the configuration data                                                               | *`None`*                                                       |
-| `--algorithm`      | `-a`        | This defines what algorithm to use from the ones available                                                                        | Either of<br />constraint_satisfaction<br />genetic<br />annelaing |
-| `--iterations`     | `-t`        | Defines the number of run times or iterations                                                                                     | `any number`                                                     |
-| `--limit`          | `-l`        | The limit which the program cannot exceed, bydefault it is `0` which means no limit                                             | `any number`                                                     |
-| `--saturation`     | `-s`        | Continue until saturation is reached                                                                                              |                                                                    |
+| Short<br />Version | Long<br />Version               | argument               | explanation                                                                                             |
+| ------------------ | ------------------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------- |
+| `-e`             | `--echo`                      | `on` or `off`      | allows print on the screen                                                                              |
+| `-srm`           | `None`                        | `most` or `least`  | Tells the constraint solver to start with variables with the<br />most or least values in their domain |
+| `-o`             | `--output-file`               | string for a file name | where the output file will be and its name                                                              |
+| `-mdg`           | `--manual-data-generation`    | None                   | The cli will ask some questions about the number<br />of objects your qant                              |
+| `-tdg`           | `--text-file-data-generation` | None                   | To Create data from a text file with instructions                                                       |
+| `-tf`            | `--text-file`                 | string of a text file  | The name of the text file from which instructions<br />are taken from                                   |
+| `run`            |                                 | None                   | if arguments have been passed it is necessary to tell<br />the algorithim to run                        |
 
 *`*None`* - Specifically Reffers to nothing following after a flag
 
 ## Data Generation
 
-Generating Mock data is crucial to making sure the entire program works. we are able to generat edata in the following ways
+Generating Mock data is crucial to making sure the entire program works. we are able to generate data in the following ways
 
     1. Text file with instructions
     2. Simple Command with prompt menu
-    3. Pre-saved confiugartaion
-    4. Manually typed in configuration
 
 ### Text Files with Instructions
 
@@ -78,10 +52,15 @@ Order does not really matter in this case but the *`colon`* right after the key 
 
 The follwoing would be the command
 
-    >> python project.py -- --input file.txt
+> ```
+> $ python project.py --text-file-data-generation --text-file file.txt
+> ```
+
 or
 
-    >> python project.py -dg -i file.txt
+> ```
+> $ python project.py -tdg -tf file.txt
+> ```
 
 ### Simple command with prompt menu
 
@@ -105,26 +84,61 @@ The prompts have been made user friedly asking questions and providing data base
 
 The following command is used
 
-    >> python project.py -dg
+> ```
+> $ python project.py -mdg
+> ```
 
 or
 
-    >> python project.py --data_generator
+> ```
+> $ python project.py --manual-data-generation
+> ```
 
-### Presaved Configuration
+## Timetable Generator Mode
 
-This assumes that you have the configuration data somewhere else and it will be imported and used in the above commands, the only thing to do is add a `-wc` or `--write_config` flag and then filepath to the configuration data file. it can be used like so
+This is the functional part of the entire project. It implements processes and procedures towards producing an optimal timetable based on the inputs given.
 
-    >> python project.py -dg -c path/to/file
+There are two ways to run inputs into the constraint solver
+
+1. Automatic Handling
+2. With arguments
+
+### Automatic Handling
+
+This is the basic setting to just run with default settings
+
+> ```
+> $ python project.py
+> ```
+
+This Gives you
+    1. Data
+        a. 4 instructors
+        b. 5 groups
+        c. 5 rooms
+        d. 20 Units
+    2. Data file named `data.json` inside `Data\Outputs` folder
+    3. Constraint Solver with no search rearangemnent Method
+    4. The output file (timetable) named `final.json` inside  `Data\Outputs` folder
+
+### With Arguments
+
+This allows more customised settings, for example the following, the following are arguments that can be used
+    1. Echo
+    2.
+
+> Arguments disable the constraint solver hence for the constraint solver to proceed the `run` flag has to be included
+
+#### Echo
+
+`Echo` prints out all the processes that are happening, and this is the deafult setting but it can also be disabled with `--echo` or `-e` flag. the only acceptable values for `--echo` are `on` or `off`. `on` is the default and `off` disables all extra prints and leaves only the essential ones i.e Timetable printing.
+
+> ```python
+> $ python project.py --echo off run
+> ```
+
 or
 
-    >> python project.py -data_generator -configuration path/to/file
-
-### Manually Written Configuration
-
-this initiates a prompt to input configuration with a series of questions.
-
-    >> python project.py -dg -wc
-or
-
-    >> python project.py -data_generator -write_config
+> ```python
+> $ python project.py --e off run
+> ```

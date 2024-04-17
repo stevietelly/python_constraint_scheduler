@@ -30,28 +30,28 @@ def manual_data_generation(input_filename = "data.json"):
     return input_filename
 
 def HandlePassedArgs():
-    output_file = "final.json"
-    input_filename = "data.json"
+    output_file = os.path.join("Data", "Outputs", "final.json")
+    input_filename = os.path.join("Data", "Outputs", "data.json")
     srm = False
     srm_type = "least"
 
     # Search Rearanagement Method
     if "-srm" in sys.argv :
-        o_index = sys.argv.index("-srm")
-        srm_type = sys.argv[o_index+1]
+        s_index = sys.argv.index("-srm")
+        srm_type = sys.argv[s_index+1]
         srm = True
         if srm_type not in ["most", "least"]: raise InvalidInput("srm", ["least", "most"])
 
     # for echo
     if "--echo" in sys.argv or "-e" in sys.argv:
-        o_index = sys.argv.index("-e") if "-e" in sys.argv else sys.argv.index("--echo")
-        state = sys.argv[o_index + 1]
+        e_index = sys.argv.index("-e") if "-e" in sys.argv else sys.argv.index("--echo")
+        state = sys.argv[e_index + 1]
         if state == "off":
             Echo.state = False
         elif not state == "on":
             echo.exit("Invalid Echo status: expected values 'on' or 'off' ")
-        sys.argv.pop(o_index)
-        sys.argv.pop(o_index)
+        sys.argv.pop(e_index)
+        sys.argv.pop(e_index)
 
     # Define output file
     if "-o" in sys.argv or "--output_file" in sys.argv:
@@ -69,8 +69,8 @@ def HandlePassedArgs():
             sys.argv.index("-i") if "-i" in sys.argv else sys.argv.index("--input_file")
         )
         input_filename = sys.argv[i_index + 1]
-        sys.argv.pop(o_index)
-        sys.argv.pop(o_index)
+        sys.argv.pop(i_index)
+        sys.argv.pop(i_index)
 
     # Manual Data Generation
     if "-mdg" in sys.argv or "--manual-data-generation" in sys.argv:
@@ -88,8 +88,8 @@ def HandlePassedArgs():
         else:
             echo.exit("Please insert a text file to read")
 
-    if "run" in sys.argv:
-        constraint_solving(input_filename, output_file, srm, srm_type)
+    if "run" in sys.argv: 
+        constraint_solving(input_filename, srm, srm_type, output_file)
     sys.exit()
 
 def text_file_data_generation(text_file:str, filename: str):
@@ -146,7 +146,7 @@ def constraint_solving(filename:str, srm, src, output_filename="final.json"):
     t = Timetable(constraint_solver.assignment.Output())
 
     f = FitnessEvaluation(t, data_reader_output)
-    Write(os.path.join("Data", "Outputs"), output_filename, f.timetable.Output()).dump()
+    Write("", output_filename, f.timetable.Output()).dump()
 
     PrintTimetable(t, data_reader_output).Print()
 
