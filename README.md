@@ -1,8 +1,8 @@
 # Python Constraint Scheduler
 
-#### Video Demo:  [Youtube Video](https://youtu.be/rddfGZ5VrHo)
+#### Video Demo:  https://youtu.be/rddfGZ5VrHo
 #### Description:
-    TODO
+ 
 ## Introduction
 
 A Timetable generator using `Constraint Programming` to develop optimum solutions while still
